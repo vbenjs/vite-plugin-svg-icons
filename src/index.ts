@@ -4,7 +4,6 @@ import type { Options as SvgoOptions } from 'svgo';
 import fg from 'fast-glob';
 import getEtag from 'etag';
 // @ts-ignore
-import SVGCompiler from 'svg-baker';
 // @ts-ignore
 import { optimize } from 'svgo';
 import fs from 'fs-extra';
@@ -12,6 +11,8 @@ import path from 'path';
 import { debug as Debug } from 'debug';
 import { SVG_DOM_ID, SVG_ICONS_NAME } from './constants';
 import { normalizePath } from 'vite';
+// @ts-ignore
+import SVGCompiler from 'svg-baker';
 
 const debug = Debug('vite-plugin-svg-icons');
 
@@ -180,7 +181,6 @@ async function compilerIcon(
     const { data } = await optimize(content);
     content = data;
   }
-
   const svgSymbol = await new SVGCompiler().addSymbol({
     id: symbolId,
     content,

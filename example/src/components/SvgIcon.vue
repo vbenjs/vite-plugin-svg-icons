@@ -1,5 +1,5 @@
 <template>
-  <svg aria-hidden="true">
+  <svg class="app-svg-icon" :class="$attrs.class" aria-hidden="true">
     <use :xlink:href="symbolId" />
   </svg>
 </template>
@@ -9,6 +9,7 @@
 
   export default defineComponent({
     name: 'SvgIcon',
+    inheritAttrs: false,
     props: {
       prefix: {
         type: String,

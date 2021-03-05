@@ -9,13 +9,13 @@
   "author": "Vben",
   "files": [
     "dist",
-    "client.d.ts"
+    "index.d.ts"
   ],
   "scripts": {
     "dev": "npm run build -- --watch",
     "build": "tsup src/index.ts --dts --format cjs,esm",
     "prepublishOnly": "yarn build",
-    "log": "conventional-changelog -p angular -i CHANGELOG.md -r -s 0 ",
+    "log": "conventional-changelog -p angular -i CHANGELOG.md -r",
     "example:dev": "npm -C example run serve",
     "example:build": "npm -C example run build"
   },
@@ -39,7 +39,7 @@
     "debug": "^4.3.2",
     "etag": "^1.8.1",
     "fs-extra": "^9.1.0",
-    "svg-baker": "2.0.2",
+    "svg-baker": "1.7.0",
     "svgo": "^2.2.0"
   },
   "peerDependencies": {
