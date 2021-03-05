@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-svg-icons",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Vite Plugin for fast creating SVG sprites.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -15,7 +15,7 @@
     "dev": "npm run build -- --watch",
     "build": "tsup src/index.ts --dts --format cjs,esm",
     "prepublishOnly": "yarn build",
-    "log": "conventional-changelog -p angular -i CHANGELOG.md -r",
+    "log": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "example:dev": "npm -C example run serve",
     "example:build": "npm -C example run build"
   },
