@@ -1,0 +1,28 @@
+name: Npm Publish
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish-npm:
+    if: "contains(github.event.head_commit.message, 'release')"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: use Node.js 14
+        uses: actions/setup-node@v1
+        with:
+          registry-url: https://registry.npmjs.org/
+          node-version: 14
+
+      - name: npm install and publish
+        run: |
+          npm install
+          npm publish
+
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.npm_token}}

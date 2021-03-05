@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "es2017",
+    "moduleResolution": "node",
+    "strict": true,
+    "declaration": true,
+    "noUnusedLocals": true,
+    "esModuleInterop": true,
+    "outDir": "dist",
+    "lib": ["dom", "esnext"],
+    "types": ["vite/client"],
+    "sourceMap": false,
+    "noEmitOnError": true
+  },
+  "include": ["./src"],
+  "exclude": ["**/dist", "**/node_modules", "**/test"]
+}

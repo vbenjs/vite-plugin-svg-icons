@@ -1,0 +1,22 @@
+{
+  "name": "ts-example",
+  "version": "0.0.0",
+  "scripts": {
+    "serve": "vite",
+    "build": "vite build ",
+    "test:gzip": "npm run build && http-server dist --cors --gzip -c-1",
+    "test:br": "npm run build && http-server dist --cors --brotli -c-1"
+  },
+  "dependencies": {
+    "vue": "^3.0.7"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^1.1.5",
+    "@vitejs/plugin-vue-jsx": "^1.1.2",
+    "@vue/compiler-sfc": "^3.0.7",
+    "cross-env": "^7.0.3",
+    "http-server": "^0.12.3",
+    "typescript": "^4.2.2",
+    "vite": "^2.0.4"
+  }
+}
