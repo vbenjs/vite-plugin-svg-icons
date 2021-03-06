@@ -24,5 +24,11 @@ module.exports = {
         tabWidth: 2,
       },
     },
+    {
+      files: '*.ts',
+      options: {
+        parser: 'typescript',
+      },
+    },
   ],
 };

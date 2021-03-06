@@ -3,6 +3,7 @@ import type { Options as SvgoOptions } from 'svgo';
 
 import fg from 'fast-glob';
 import getEtag from 'etag';
+
 // @ts-ignore
 import { optimize } from 'svgo';
 import fs from 'fs-extra';
@@ -49,6 +50,10 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
   };
 
   let { svgoOptions } = options;
+  const { symbolId } = options;
+  if (!symbolId.includes('[name]')) {
+    throw new Error('SymbolId must contain [name] string!');
+  }
 
   if (svgoOptions) {
     svgoOptions = typeof svgoOptions === 'boolean' ? {} : svgoOptions;
@@ -77,7 +82,7 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
     },
     configureServer: ({ middlewares }) => {
       middlewares.use(async (req, res, next) => {
-        let url = req.url!;
+        const url = req.url!;
         if (normalizePath(url) === `/@id/${SVG_ICONS_NAME}`) {
           res.setHeader('Content-Type', 'application/javascript');
           res.setHeader('Cache-Control', 'no-cache');
@@ -93,7 +98,7 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
   };
 };
 
-async function createModuleCode(
+export async function createModuleCode(
   cache: Map<string, FileStats>,
   svgoOptions: SvgoOptions,
   options: ViteSvgIconsPlugin
@@ -120,7 +125,7 @@ async function createModuleCode(
  * @param cache
  * @param options
  */
-async function compilerIcons(
+export async function compilerIcons(
   cache: Map<string, FileStats>,
   svgOptions: SvgoOptions,
   options: ViteSvgIconsPlugin
@@ -168,7 +173,7 @@ async function compilerIcons(
   return insertHtml;
 }
 
-async function compilerIcon(
+export async function compilerIcon(
   file: string,
   symbolId: string,
   svgOptions: SvgoOptions
@@ -189,7 +194,7 @@ async function compilerIcon(
   return svgSymbol.render();
 }
 
-function createSymbolId(name: string, options: ViteSvgIconsPlugin) {
+export function createSymbolId(name: string, options: ViteSvgIconsPlugin) {
   const { symbolId } = options;
 
   if (!symbolId) {
@@ -211,7 +216,7 @@ function createSymbolId(name: string, options: ViteSvgIconsPlugin) {
   return id.replace(path.extname(id), '');
 }
 
-function discreteDir(name: string) {
+export function discreteDir(name: string) {
   if (!normalizePath(name).includes('/')) {
     return {
       fileName: name,

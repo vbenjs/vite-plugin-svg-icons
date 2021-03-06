@@ -8,11 +8,11 @@
     "noUnusedLocals": true,
     "esModuleInterop": true,
     "outDir": "dist",
-    "lib": ["dom", "esnext"],
-    "types": ["vite/client"],
+    "lib": ["dom", "esnext", "es2015", "es2017", "es2018", "es2019"],
+    "types": ["vite/client", "jest", "node"],
     "sourceMap": false,
     "noEmitOnError": true
   },
-  "include": ["./src"],
-  "exclude": ["**/dist", "**/node_modules", "**/test"]
+  "include": ["src/**/*", "tests/**/*"],
+  "exclude": ["**/dist", "**/node_modules"]
 }
