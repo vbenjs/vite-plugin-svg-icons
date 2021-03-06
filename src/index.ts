@@ -4,7 +4,6 @@ import type { Options as SvgoOptions } from 'svgo';
 import fg from 'fast-glob';
 import getEtag from 'etag';
 // @ts-ignore
-// @ts-ignore
 import { optimize } from 'svgo';
 import fs from 'fs-extra';
 import path from 'path';
