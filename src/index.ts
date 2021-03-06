@@ -101,6 +101,7 @@ async function createModuleCode(
   const insertHtml = await compilerIcons(cache, svgoOptions, options);
   const code = `
          document.addEventListener('DOMContentLoaded', () => {
+          let body = document.body;
           let svgDom = document.getElementById('${SVG_DOM_ID}');
           if(!svgDom) {
             svgDom = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -108,7 +109,7 @@ async function createModuleCode(
             svgDom.id = '${SVG_DOM_ID}';
           }
           svgDom.innerHTML = ${JSON.stringify(insertHtml)};
-          document.body.insertBefore(svgDom, document.body.firstChild);
+          body.insertBefore(svgDom, body.firstChild);
         });
         `;
   return `${code}\nexport default {}`;
