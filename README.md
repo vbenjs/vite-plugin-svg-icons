@@ -2,8 +2,6 @@
 
 **English** | [中文](./README.zh_CN.md)
 
-[![npm][npm-img]][npm-url] [![node][node-img]][node-url]
-
 Used to generate svg sprite map.
 
 ## Feature

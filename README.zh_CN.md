@@ -2,8 +2,6 @@
 
 **中文** | [English](./README.md)
 
-[![npm][npm-img]][npm-url] [![node][node-img]][node-url]
-
 用于生成 svg 雪碧图.
 
 ## 特征
