@@ -1,3 +1,9 @@
+# [0.3.0](https://github.com/anncwb/vite-plugin-svg-icons/compare/v0.2.0...v0.3.0) (2021-03-07)
+
+### Features
+
+- export vite-plugin-svg-icons/client ([fd765cd](https://github.com/anncwb/vite-plugin-svg-icons/commit/fd765cd6ec90ad28dd279ac569fcd3ad3da323f8))
+
 # [0.2.0](https://github.com/anncwb/vite-plugin-svg-icons/compare/v0.1.3...v0.2.0) (2021-03-06)
 
 ## [0.1.3](https://github.com/anncwb/vite-plugin-svg-icons/compare/v0.1.2...v0.1.3) (2021-03-06)
