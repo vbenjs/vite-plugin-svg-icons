@@ -9,7 +9,8 @@
   "author": "Vben",
   "files": [
     "dist",
-    "index.d.ts"
+    "register.d.ts",
+    "client.d.ts"
   ],
   "scripts": {
     "dev": "npm run build -- --watch",

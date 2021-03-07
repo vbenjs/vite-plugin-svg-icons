@@ -127,6 +127,13 @@ import 'vite-plugin-svg-icons/register';
 
 React 使用方式一样。只需修改组件为 Jsx 组件即可
 
+### 获取所有 SymbolId
+
+```ts
+import ids from 'vite-plugin-svg-icons/client';
+// => ['icon-icon1','icon-icon2','icon-icon3']
+```
+
 ### 配置说明
 
 | 参数 | 类型 | 默认值 | 说明 |

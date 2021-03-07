@@ -127,6 +127,13 @@ Here the svg sprite map has been generated
 
 React is used in the same way. Just modify the component to Jsx component
 
+### Get all SymbolId
+
+```ts
+import ids from 'vite-plugin-svg-icons/client';
+// => ['icon-icon1','icon-icon2','icon-icon3']
+```
+
 ### Options
 
 | Parameter | Type | Default | Description |
