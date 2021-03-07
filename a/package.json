@@ -1,9 +1,0 @@
-{
-  "name": "a",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "dependencies": {
-    "vite-plugin-svg-icons": "^0.3.2"
-  }
-}
