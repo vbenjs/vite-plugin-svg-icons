@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-svg-icons",
-  "version": "0.3.0",
+  "version": "0.3.2",
   "description": "Vite Plugin for fast creating SVG sprites.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -15,7 +15,7 @@
   "scripts": {
     "dev": "npm run build -- --watch",
     "build": "tsup src/index.ts --dts --format cjs,esm",
-    "prepublishOnly": "pinst --disable  yarn build",
+    "prepublishOnly": "pinst --disable  npm run  build",
     "log": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "lint:lint-staged": "lint-staged -c ./.husky/lintstagedrc.js",
     "lint:pretty": "pretty-quick --staged",
