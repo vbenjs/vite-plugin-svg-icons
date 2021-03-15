@@ -207,7 +207,7 @@ export async function compilerIcon(
   let content = fs.readFileSync(file, 'utf-8');
 
   if (svgOptions) {
-    const { data } = await optimize(content);
+    const { data } = await optimize(content, svgOptions);
     content = data;
   }
   const svgSymbol = await new SVGCompiler().addSymbol({
