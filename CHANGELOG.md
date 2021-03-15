@@ -1,3 +1,9 @@
+## [0.3.5](https://github.com/anncwb/vite-plugin-svg-icons/compare/v0.3.0...v0.3.5) (2021-03-16)
+
+### Bug Fixes
+
+- svgoOptions does not work [#2](https://github.com/anncwb/vite-plugin-svg-icons/issues/2) ([9cc45d5](https://github.com/anncwb/vite-plugin-svg-icons/commit/9cc45d51a08d00d23dfc698401e4e7a77eb1281f))
+
 # [0.3.0](https://github.com/anncwb/vite-plugin-svg-icons/compare/v0.2.0...v0.3.0) (2021-03-07)
 
 ### Features
