@@ -43,6 +43,7 @@ interface FileStats {
 export default (opt: ViteSvgIconsPlugin): Plugin => {
   const cache = new Map<string, FileStats>();
   let isBuild = false;
+  let base: string;
 
   const options = {
     svgoOptions: true,
@@ -66,6 +67,7 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
     name: 'vite:svg-icons',
     configResolved(resolvedConfig) {
       isBuild = resolvedConfig.isProduction || resolvedConfig.command === 'build';
+      const base = resolvedConfig.base;
       debug('resolvedConfig:', resolvedConfig);
     },
     resolveId(importee) {
@@ -76,25 +78,23 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
     },
 
     async load(id) {
-      const isRegister = id === SVG_ICONS_NAME;
-      const isClient = id === SVG_ICONS_CLIENT;
-      if (isBuild && (isRegister || isClient)) {
-        const { code, idSet } = await createModuleCode(cache, svgoOptions as SvgoOptions, options);
-        if (isRegister) {
-          return code;
-        }
-        if (isClient) {
-          return idSet;
-        }
+      if (!isBuild) return null;
+      const isRegister = id.endsWith(SVG_ICONS_NAME);
+      const isClient = id.endsWith(SVG_ICONS_CLIENT);
+      const { code, idSet } = await createModuleCode(cache, svgoOptions as SvgoOptions, options);
+      if (isRegister) {
+        return code;
       }
-      return null;
+      if (isClient) {
+        return idSet;
+      }
     },
     configureServer: ({ middlewares }) => {
       middlewares.use(async (req, res, next) => {
         const url = normalizePath(req.url!);
         const registerId = `/@id/${SVG_ICONS_NAME}`;
         const clientId = `/@id/${SVG_ICONS_CLIENT}`;
-        if ([clientId, registerId].includes(url)) {
+        if ([clientId, registerId].some((item) => url.endsWith(item))) {
           res.setHeader('Content-Type', 'application/javascript');
           res.setHeader('Cache-Control', 'no-cache');
           const { code, idSet } = await createModuleCode(
@@ -102,7 +102,7 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
             svgoOptions as SvgoOptions,
             options
           );
-          const content = url === registerId ? code : idSet;
+          const content = url.endsWith(registerId) ? code : idSet;
 
           res.setHeader('Etag', getEtag(content, { weak: true }));
           res.statusCode = 200;
