@@ -1,3 +1,9 @@
+# [0.4.0](https://github.com/anncwb/vite-plugin-svg-icons/compare/v0.3.5...v0.4.0) (2021-03-19)
+
+### Bug Fixes
+
+- support base ([5071612](https://github.com/anncwb/vite-plugin-svg-icons/commit/5071612cc03719f23f2b484331a814c9d8ba4ff1))
+
 ## [0.3.5](https://github.com/anncwb/vite-plugin-svg-icons/compare/v0.3.0...v0.3.5) (2021-03-16)
 
 ### Bug Fixes

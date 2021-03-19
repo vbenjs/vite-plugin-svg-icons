@@ -43,7 +43,6 @@ interface FileStats {
 export default (opt: ViteSvgIconsPlugin): Plugin => {
   const cache = new Map<string, FileStats>();
   let isBuild = false;
-  let base: string;
 
   const options = {
     svgoOptions: true,
@@ -67,7 +66,6 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
     name: 'vite:svg-icons',
     configResolved(resolvedConfig) {
       isBuild = resolvedConfig.isProduction || resolvedConfig.command === 'build';
-      const base = resolvedConfig.base;
       debug('resolvedConfig:', resolvedConfig);
     },
     resolveId(importee) {
