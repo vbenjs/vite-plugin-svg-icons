@@ -42,8 +42,8 @@ interface FileStats {
 
 export default (opt: ViteSvgIconsPlugin): Plugin => {
   const cache = new Map<string, FileStats>();
-  let isBuild = false;
 
+  let isBuild = false;
   const options = {
     svgoOptions: true,
     symbolId: 'icon-[dir]-[name]',
@@ -52,6 +52,7 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
 
   let { svgoOptions } = options;
   const { symbolId } = options;
+
   if (!symbolId.includes('[name]')) {
     throw new Error('SymbolId must contain [name] string!');
   }
@@ -200,7 +201,9 @@ export async function compilerIcon(
   symbolId: string,
   svgOptions: SvgoOptions
 ): Promise<string | null> {
-  if (!file) return null;
+  if (!file) {
+    return null;
+  }
 
   let content = fs.readFileSync(file, 'utf-8');
 
@@ -208,6 +211,7 @@ export async function compilerIcon(
     const { data } = await optimize(content, svgOptions);
     content = data;
   }
+
   const svgSymbol = await new SVGCompiler().addSymbol({
     id: symbolId,
     content,
@@ -247,7 +251,6 @@ export function discreteDir(name: string) {
   }
 
   const strList = name.split('/');
-
   const fileName = strList.pop();
   const dirName = strList.join('-');
   return { fileName, dirName };
