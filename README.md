@@ -130,7 +130,7 @@ React is used in the same way. Just modify the component to Jsx component
 ### Get all SymbolId
 
 ```ts
-import ids from 'vite-plugin-svg-icons/client';
+import ids from 'virtual:svg-icons-names';
 // => ['icon-icon1','icon-icon2','icon-icon3']
 ```
 

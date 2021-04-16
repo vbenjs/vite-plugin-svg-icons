@@ -130,7 +130,7 @@ React 使用方式一样。只需修改组件为 Jsx 组件即可
 ### 获取所有 SymbolId
 
 ```ts
-import ids from 'vite-plugin-svg-icons/client';
+import ids from 'virtual:svg-icons-names';
 // => ['icon-icon1','icon-icon2','icon-icon3']
 ```
 

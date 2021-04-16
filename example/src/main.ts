@@ -3,7 +3,7 @@ import App from './App.vue';
 
 import 'vite-plugin-svg-icons/register';
 
-import allKeys from 'vite-plugin-svg-icons/client';
+import allKeys from 'virtual:svg-icons-names';
 
 console.log(allKeys);
 

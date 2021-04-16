@@ -70,7 +70,7 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
       debug('resolvedConfig:', resolvedConfig);
     },
     resolveId(importee) {
-      if (importee === SVG_ICONS_NAME || importee === SVG_ICONS_CLIENT) {
+      if (importee === SVG_ICONS_NAME || SVG_ICONS_CLIENT.includes(importee)) {
         return importee;
       }
       return null;
@@ -79,7 +79,7 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
     async load(id) {
       if (!isBuild) return null;
       const isRegister = id.endsWith(SVG_ICONS_NAME);
-      const isClient = id.endsWith(SVG_ICONS_CLIENT);
+      const isClient = SVG_ICONS_CLIENT.some((item) => id.endsWith(item));
       const { code, idSet } = await createModuleCode(cache, svgoOptions as SvgoOptions, options);
       if (isRegister) {
         return code;
@@ -92,8 +92,8 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
       middlewares.use(async (req, res, next) => {
         const url = normalizePath(req.url!);
         const registerId = `/@id/${SVG_ICONS_NAME}`;
-        const clientId = `/@id/${SVG_ICONS_CLIENT}`;
-        if ([clientId, registerId].some((item) => url.endsWith(item))) {
+        const clientIds = SVG_ICONS_CLIENT.map((item) => `/@id/${item}`);
+        if ([...clientIds, registerId].some((item) => url.endsWith(item))) {
           res.setHeader('Content-Type', 'application/javascript');
           res.setHeader('Cache-Control', 'no-cache');
           const { code, idSet } = await createModuleCode(
