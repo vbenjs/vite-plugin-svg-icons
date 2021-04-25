@@ -8,6 +8,11 @@
     "test:br": "npm run build && http-server dist --cors --brotli -c-1"
   },
   "dependencies": {
+    "etag": "^1.8.1",
+    "fast-glob": "^3.2.5",
+    "fs-extra": "^9.1.0",
+    "svg-baker": "^1.7.0",
+    "svgo": "^2.3.0",
     "vue": "^3.0.11"
   },
   "devDependencies": {
@@ -17,6 +22,6 @@
     "cross-env": "^7.0.3",
     "http-server": "^0.12.3",
     "typescript": "^4.2.3",
-    "vite": "^2.1.5"
+    "vite": "^2.2.2"
   }
 }
