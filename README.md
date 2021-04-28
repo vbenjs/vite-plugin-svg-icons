@@ -64,7 +64,7 @@ Here the svg sprite map has been generated
 ```vue
 <template>
   <svg aria-hidden="true">
-    <use :xlink:href="symbolId" />
+    <use :xlink:href="symbolId" :fill="color" />
   </svg>
 </template>
 
@@ -81,6 +81,10 @@ Here the svg sprite map has been generated
       name: {
         type: String,
         required: true,
+      },
+      color: {
+        type: String,
+        default: '#333',
       },
     },
     setup(props) {
