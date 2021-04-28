@@ -6,6 +6,7 @@ import path from 'path';
 
 export default (): UserConfigExport => {
   return {
+    base: '/dev',
     plugins: [
       vue(),
       jsx(),
