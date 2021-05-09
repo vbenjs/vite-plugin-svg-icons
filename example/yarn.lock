@@ -275,19 +275,28 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
+"@rollup/pluginutils@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-4.1.0.tgz#0dcc61c780e39257554feb7f77207dceca13c838"
+  integrity sha512-TrBhfJkFxA+ER+ew2U2/fHbebhLT/l/2pRk0hfj9KusXUuRXd2v0R58AfaZK9VXDQ4TogOSEmICVrQAA3zFnHQ==
+  dependencies:
+    estree-walker "^2.0.1"
+    picomatch "^2.2.2"
+
 "@trysound/sax@0.1.1":
   version "0.1.1"
   resolved "https://registry.npmjs.org/@trysound/sax/-/sax-0.1.1.tgz#3348564048e7a2d7398c935d466c0414ebb6a669"
   integrity sha512-Z6DoceYb/1xSg5+e+ZlPZ9v0N16ZvZ+wYMraFue4HYrE4ttONKtsvruIRf6t9TBR0YvSOfi1hUU0fJfBLCDYow==
 
-"@vitejs/plugin-vue-jsx@^1.1.3":
-  version "1.1.3"
-  resolved "https://registry.npmjs.org/@vitejs/plugin-vue-jsx/-/plugin-vue-jsx-1.1.3.tgz#426c68f8a367a603acb82fca6e2b12506ba9fc8e"
-  integrity sha512-R9wsuNDEKTDG5oXJaFictrw9E5uokniGzi6tvyO5Od02tE4TnOPfgY2BeHKB4f4ldgiZRMhdUhNEsgjoWnct6A==
+"@vitejs/plugin-vue-jsx@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.npmjs.org/@vitejs/plugin-vue-jsx/-/plugin-vue-jsx-1.1.4.tgz#3af194202f9ed38a7384f7a7c72f5b66ce863859"
+  integrity sha512-QomJwH9oF5Ixl000fLK4TjKE4gwnxpArZdcHs6ANrtgsXwxyoib8msz9tNgiP2TiBfg7VdShbaUBYMvm0gPGsA==
   dependencies:
     "@babel/core" "^7.12.10"
     "@babel/plugin-syntax-import-meta" "^7.10.4"
     "@babel/plugin-transform-typescript" "^7.12.1"
+    "@rollup/pluginutils" "^4.1.0"
     "@vue/babel-plugin-jsx" "^1.0.3"
     hash-sum "^2.0.0"
 
@@ -1562,7 +1571,7 @@ path-parse@^1.0.6:
   resolved "https://registry.npmjs.org/path-parse/-/path-parse-1.0.6.tgz#d62dbb5679405d72c4737ec58600e9ddcf06d24c"
   integrity sha512-GSmOT2EbHrINBf9SR7CDELwlJ8AENk3Qn7OikK4nFYAu3Ote2+JYNVvkpAEQm3/TLNEJFD/xZJjzyxg3KBWOzw==
 
-picomatch@^2.2.1, picomatch@^2.2.3:
+picomatch@^2.2.1, picomatch@^2.2.2, picomatch@^2.2.3:
   version "2.2.3"
   resolved "https://registry.npmjs.org/picomatch/-/picomatch-2.2.3.tgz#465547f359ccc206d3c48e46a1bcb89bf7ee619d"
   integrity sha512-KpELjfwcCDUb9PeigTs2mBJzXUPzAuP2oPcA989He8Rte0+YUAjw1JVedDhuTKPkHjSYzMN3npC9luThGYEKdg==
@@ -2133,10 +2142,10 @@ util-deprecate@^1.0.1, util-deprecate@^1.0.2:
   resolved "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz#450d4dc9fa70de732762fbd2d4a28981419a0ccf"
   integrity sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=
 
-vite@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.npmjs.org/vite/-/vite-2.2.3.tgz#1acbdfa56ac00e00e7ccb6988f63f130c2f99dbb"
-  integrity sha512-PtjyBL4GtACM+uT5q5hi2+AlMBbb6YI2b2bam6QI8ZdZt4FezseF0yZHQx0G+b3po9jIJ/GS5N9gc5Yq9Rue7g==
+vite@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.npmjs.org/vite/-/vite-2.2.4.tgz#8f9cc85aacab04c850085894b086c8717f12ed16"
+  integrity sha512-vnIwSNci+phFMp6krhy+FbYzKL0R67Sdt9mVZ96S27AewrApSJjTqncJcalk8sf60BgcbW4+1C6DFIWkxquO9g==
   dependencies:
     esbuild "^0.9.3"
     postcss "^8.2.1"
