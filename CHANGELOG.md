@@ -1,3 +1,5 @@
+## [0.5.1](https://github.com/anncwb/vite-plugin-svg-icons/compare/v0.4.1...v0.5.1) (2021-05-09)
+
 # [0.5.0](https://github.com/anncwb/vite-plugin-svg-icons/compare/v0.4.1...v0.5.0) (2021-04-28)
 
 ## [0.4.2](https://github.com/anncwb/vite-plugin-svg-icons/compare/v0.4.1...v0.4.2) (2021-04-16)
