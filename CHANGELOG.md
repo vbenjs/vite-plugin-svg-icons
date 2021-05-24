@@ -1,3 +1,10 @@
+# [0.6.0](https://github.com/anncwb/vite-plugin-svg-icons/compare/v0.4.1...v0.6.0) (2021-05-25)
+
+### Bug Fixes
+
+- **cors:** fix [#4](https://github.com/anncwb/vite-plugin-svg-icons/issues/4) ([7cfc386](https://github.com/anncwb/vite-plugin-svg-icons/commit/7cfc386d26c1506fc1bc5d71886d4cecfb8b5aad))
+- **ssr:** fix SSR Cannot find module, fixed [#7](https://github.com/anncwb/vite-plugin-svg-icons/issues/7) ([d7f8791](https://github.com/anncwb/vite-plugin-svg-icons/commit/d7f879159fcec8e0ca5a2ebe78ab02756dc09116))
+
 ## [0.5.1](https://github.com/anncwb/vite-plugin-svg-icons/compare/v0.4.1...v0.5.1) (2021-05-09)
 
 # [0.5.0](https://github.com/anncwb/vite-plugin-svg-icons/compare/v0.4.1...v0.5.0) (2021-04-28)
