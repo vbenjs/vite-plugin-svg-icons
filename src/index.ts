@@ -1,10 +1,9 @@
 import type { Plugin } from 'vite';
-import type { Options as SvgoOptions } from 'svgo';
+import type { OptimizeOptions } from 'svgo';
 
 import fg from 'fast-glob';
 import getEtag from 'etag';
 
-// @ts-ignore
 import { optimize } from 'svgo';
 import fs from 'fs-extra';
 import path from 'path';
@@ -25,7 +24,7 @@ export interface ViteSvgIconsPlugin {
    * svgo configuration, used to compress svg
    * @default：true
    */
-  svgoOptions?: boolean | SvgoOptions;
+  svgoOptions?: boolean | OptimizeOptions;
   /**
    * icon format
    * @default: icon-[dir]-[name]
@@ -80,7 +79,11 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
       if (!isBuild) return null;
       const isRegister = id.endsWith(SVG_ICONS_NAME);
       const isClient = SVG_ICONS_CLIENT.some((item) => id.endsWith(item));
-      const { code, idSet } = await createModuleCode(cache, svgoOptions as SvgoOptions, options);
+      const { code, idSet } = await createModuleCode(
+        cache,
+        svgoOptions as OptimizeOptions,
+        options
+      );
       if (isRegister) {
         return code;
       }
@@ -98,7 +101,7 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
           res.setHeader('Cache-Control', 'no-cache');
           const { code, idSet } = await createModuleCode(
             cache,
-            svgoOptions as SvgoOptions,
+            svgoOptions as OptimizeOptions,
             options
           );
           const content = url.endsWith(registerId) ? code : idSet;
@@ -116,7 +119,7 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
 
 export async function createModuleCode(
   cache: Map<string, FileStats>,
-  svgoOptions: SvgoOptions,
+  svgoOptions: OptimizeOptions,
   options: ViteSvgIconsPlugin
 ) {
   const { insertHtml, idSet } = await compilerIcons(cache, svgoOptions, options);
@@ -146,7 +149,7 @@ export async function createModuleCode(
  */
 export async function compilerIcons(
   cache: Map<string, FileStats>,
-  svgOptions: SvgoOptions,
+  svgOptions: OptimizeOptions,
   options: ViteSvgIconsPlugin
 ) {
   const { iconDirs } = options;
@@ -199,7 +202,7 @@ export async function compilerIcons(
 export async function compilerIcon(
   file: string,
   symbolId: string,
-  svgOptions: SvgoOptions
+  svgOptions: OptimizeOptions
 ): Promise<string | null> {
   if (!file) {
     return null;
