@@ -3,6 +3,7 @@ import type { OptimizeOptions } from 'svgo';
 
 import fg from 'fast-glob';
 import getEtag from 'etag';
+import cors from 'cors';
 
 import { optimize } from 'svgo';
 import fs from 'fs-extra';
@@ -92,6 +93,7 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
       }
     },
     configureServer: ({ middlewares }) => {
+      middlewares.use(cors({ origin: '*' }));
       middlewares.use(async (req, res, next) => {
         const url = normalizePath(req.url!);
         const registerId = `/@id/${SVG_ICONS_NAME}`;
