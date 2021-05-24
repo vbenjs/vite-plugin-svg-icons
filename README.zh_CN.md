@@ -50,7 +50,7 @@ export default () => {
 - 在 src/main.ts 内引入注册脚本
 
 ```ts
-import 'vite-plugin-svg-icons/register';
+import 'virtual:svg-icons-register';
 ```
 
 到这里 svg 雪碧图已经生成

@@ -50,7 +50,7 @@ export default () => {
 - Introduce the registration script in src/main.ts
 
 ```ts
-import 'vite-plugin-svg-icons/register';
+import 'virtual:svg-icons-register';
 ```
 
 Here the svg sprite map has been generated

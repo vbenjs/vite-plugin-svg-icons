@@ -70,7 +70,7 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
       debug('resolvedConfig:', resolvedConfig);
     },
     resolveId(importee) {
-      if (importee === SVG_ICONS_NAME || SVG_ICONS_CLIENT.includes(importee)) {
+      if (SVG_ICONS_NAME.includes(importee) || SVG_ICONS_CLIENT.includes(importee)) {
         return importee;
       }
       return null;
@@ -78,7 +78,7 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
 
     async load(id) {
       if (!isBuild) return null;
-      const isRegister = id.endsWith(SVG_ICONS_NAME);
+      const isRegister = SVG_ICONS_NAME.some((item) => id.endsWith(item));
       const isClient = SVG_ICONS_CLIENT.some((item) => id.endsWith(item));
       const { code, idSet } = await createModuleCode(
         cache,
@@ -96,9 +96,9 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
       middlewares.use(cors({ origin: '*' }));
       middlewares.use(async (req, res, next) => {
         const url = normalizePath(req.url!);
-        const registerId = `/@id/${SVG_ICONS_NAME}`;
+        const registerIds = SVG_ICONS_NAME.map((item) => `/@id/${item}`);
         const clientIds = SVG_ICONS_CLIENT.map((item) => `/@id/${item}`);
-        if ([...clientIds, registerId].some((item) => url.endsWith(item))) {
+        if ([...clientIds, ...registerIds].some((item) => url.endsWith(item))) {
           res.setHeader('Content-Type', 'application/javascript');
           res.setHeader('Cache-Control', 'no-cache');
           const { code, idSet } = await createModuleCode(
@@ -106,7 +106,7 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
             svgoOptions as OptimizeOptions,
             options
           );
-          const content = url.endsWith(registerId) ? code : idSet;
+          const content = registerIds.some((item) => url.endsWith(item)) ? code : idSet;
 
           res.setHeader('Etag', getEtag(content, { weak: true }));
           res.statusCode = 200;
