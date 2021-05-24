@@ -1,3 +1,14 @@
+## [0.6.1](https://github.com/anncwb/vite-plugin-svg-icons/compare/v0.4.1...v0.6.1) (2021-05-25)
+
+### Bug Fixes
+
+- **cors:** fix [#4](https://github.com/anncwb/vite-plugin-svg-icons/issues/4) ([14753dc](https://github.com/anncwb/vite-plugin-svg-icons/commit/14753dcc74b43cc0b5b7f3bff93cffa2e6b87bd4))
+- **ssr:** fix SSR Cannot find module, fixed [#7](https://github.com/anncwb/vite-plugin-svg-icons/issues/7) ([81c8123](https://github.com/anncwb/vite-plugin-svg-icons/commit/81c812325fba2d3e04316de946550fb3387b0952))
+
+### Features
+
+- added virtual id import ([7223237](https://github.com/anncwb/vite-plugin-svg-icons/commit/7223237b491b7dc7e13080c6a27b6c40c8d4c1ec))
+
 # [0.6.0](https://github.com/anncwb/vite-plugin-svg-icons/compare/v0.4.1...v0.6.0) (2021-05-25)
 
 ### Bug Fixes
