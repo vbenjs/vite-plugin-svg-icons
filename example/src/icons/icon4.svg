@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="35px" viewBox="0 0 36 35" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61.1 (89650) - https://sketch.com -->
+    <title>图标/一级定位</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#E42221" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#E42221" offset="100%"></stop>
+        </linearGradient>
+        <path d="M18,31.1666667 C19.247407,31.1666667 20.4477447,24.2864918 21.570231,23.9075127 C26.0801459,22.3848539 29.3333333,18.0562611 29.3333333,12.9541582 C29.3333333,6.58217757 24.2592272,1.41666667 18,1.41666667 C11.7407728,1.41666667 6.66666667,6.58217757 6.66666667,12.9541582 C6.66666667,18.0227077 9.87720637,22.3278875 14.3409559,23.8771085 C15.4888563,24.275507 16.7196334,31.1666667 18,31.1666667 Z" id="path-2"></path>
+        <filter x="-24.3%" y="-18.5%" width="148.5%" height="137.0%" filterUnits="objectBoundingBox" id="filter-3">
+            <feGaussianBlur stdDeviation="5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="1" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.89283288   0 0 0 0 0.132960904   0 0 0 0 0.128072521  0 0 0 1 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#E42221" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#E42221" offset="100%"></stop>
+        </linearGradient>
+        <ellipse id="path-5" cx="17.5" cy="30.5" rx="8.5" ry="2.5"></ellipse>
+        <filter x="-32.4%" y="-110.0%" width="164.7%" height="320.0%" filterUnits="objectBoundingBox" id="filter-6">
+            <feGaussianBlur stdDeviation="5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="1" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.89283288   0 0 0 0 0.132960904   0 0 0 0 0.128072521  0 0 0 1 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-7">
+            <stop stop-color="#E42221" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#E42221" offset="100%"></stop>
+        </linearGradient>
+        <ellipse id="path-8" cx="18" cy="30.5" rx="18" ry="5.5"></ellipse>
+        <filter x="-15.3%" y="-50.0%" width="130.6%" height="200.0%" filterUnits="objectBoundingBox" id="filter-9">
+            <feGaussianBlur stdDeviation="5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="1" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.89283288   0 0 0 0 0.132960904   0 0 0 0 0.128072521  0 0 0 1 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="警情提示" transform="translate(-1456.000000, -362.000000)">
+            <g id="编组-38" transform="translate(1200.000000, 310.000000)">
+                <g id="编组-39" transform="translate(256.000000, 51.000000)">
+                    <g id="图标/一级定位">
+                        <rect id="矩形" stroke="#979797" fill="#D8D8D8" opacity="0" x="1.5" y="0.5" width="33" height="33"></rect>
+                        <g id="椭圆形备份-22">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                            <path stroke="url(#linearGradient-1)" stroke-width="1" d="M18,30.6666667 C18.1630589,30.6666667 18.6681908,29.569209 19.4087195,27.3694406 C20.4337296,24.3246094 20.7095537,23.6703699 21.4102886,23.4337845 C25.8051327,21.9499764 28.8333333,17.7492152 28.8333333,12.9541582 C28.8333333,6.85634156 23.981067,1.91666667 18,1.91666667 C12.018933,1.91666667 7.16666667,6.85634156 7.16666667,12.9541582 C7.16666667,17.7160902 10.1532929,21.8944502 14.5048964,23.4047489 C15.2092795,23.6492172 15.4937282,24.3112598 16.5390745,27.3502695 C17.303845,29.5735948 17.818372,30.6666667 18,30.6666667 Z" stroke-linejoin="square"></path>
+                        </g>
+                        <g id="椭圆形">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-6)" xlink:href="#path-5"></use>
+                            <ellipse stroke="url(#linearGradient-4)" stroke-width="1" stroke-linejoin="square" cx="17.5" cy="30.5" rx="8" ry="2"></ellipse>
+                        </g>
+                        <g id="椭圆形" opacity="0.600000024">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-9)" xlink:href="#path-8"></use>
+                            <ellipse stroke="url(#linearGradient-7)" stroke-width="1" stroke-linejoin="square" cx="18" cy="30.5" rx="17.5" ry="5"></ellipse>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
