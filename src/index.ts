@@ -131,7 +131,9 @@ export async function createModuleCode(
           let svgDom = document.getElementById('${SVG_DOM_ID}');
           if(!svgDom) {
             svgDom = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-            svgDom.style.display = 'none';
+            svgDom.style.position = 'absolute';
+            svgDom.style.width = '0';
+            svgDom.style.height = '0';
             svgDom.id = '${SVG_DOM_ID}';
           }
           svgDom.innerHTML = ${JSON.stringify(insertHtml)};

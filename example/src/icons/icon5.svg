@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61.1 (89650) - https://sketch.com -->
+    <title>图标/一级定位</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#E42221" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#E42221" offset="100%"></stop>
+        </linearGradient>
+        <path d="M12,22 C12.8805226,22 13.7278198,17.143406 14.5201631,16.8758913 C17.7036324,15.8010733 20,12.745596 20,9.14411166 C20,4.64624299 16.418278,1 12,1 C7.581722,1 4,4.64624299 4,9.14411166 C4,12.7219113 6.26626332,15.7608618 9.41714533,16.8544295 C10.227428,17.135652 11.0962118,22 12,22 Z" id="path-2"></path>
+        <filter x="-34.4%" y="-26.2%" width="168.8%" height="152.4%" filterUnits="objectBoundingBox" id="filter-3">
+            <feGaussianBlur stdDeviation="5" in="SourceAlpha" result="shadowBlurInner1"></feGaussianBlur>
+            <feOffset dx="0" dy="1" in="shadowBlurInner1" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0.89283288   0 0 0 0 0.132960904   0 0 0 0 0.128072521  0 0 0 1 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="图标/一级定位" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="矩形" stroke="#979797" fill="#D8D8D8" opacity="0" x="0.5" y="0.5" width="23" height="23"></rect>
+        <g id="椭圆形备份-22">
+            <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+            <path stroke="url(#linearGradient-1)" stroke-width="1" d="M11.966087,21.4426781 C12.0394225,21.3438834 12.1247771,21.1909181 12.2179405,20.9885098 C12.3947601,20.6043487 12.5550253,20.1638228 12.8550168,19.2726866 C13.6161243,17.011788 13.7923009,16.5939068 14.3602207,16.4021631 C17.4028005,15.3749129 19.5,12.4656492 19.5,9.14411166 C19.5,4.92040698 16.1401178,1.5 12,1.5 C7.85988221,1.5 4.5,4.92040698 4.5,9.14411166 C4.5,12.4427116 6.56841341,15.3364703 9.58108582,16.38207 C10.149887,16.5794822 10.3329545,17.0055642 11.1078204,19.2582387 C11.5257428,20.4732144 11.8607056,21.2355281 11.966087,21.4426781 Z" stroke-linejoin="square"></path>
+        </g>
+    </g>
+</svg>
