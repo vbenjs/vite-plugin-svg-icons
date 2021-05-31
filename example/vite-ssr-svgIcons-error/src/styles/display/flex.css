@@ -1,0 +1,5 @@
+.flex-center {
+  @apply flex;
+  align-items: center;
+  justify-content: center;
+}

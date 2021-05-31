@@ -76,10 +76,16 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
       return null;
     },
 
-    async load(id) {
-      if (!isBuild) return null;
+    async load(id, ssr) {
+      if (!isBuild && !ssr) return null;
+
       const isRegister = SVG_ICONS_NAME.some((item) => id.endsWith(item));
       const isClient = SVG_ICONS_CLIENT.some((item) => id.endsWith(item));
+
+      if (ssr && !isBuild && (isRegister || isClient)) {
+        return `export default {}`;
+      }
+
       const { code, idSet } = await createModuleCode(
         cache,
         svgoOptions as OptimizeOptions,
@@ -92,10 +98,11 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
         return idSet;
       }
     },
-    configureServer: ({ middlewares }) => {
-      middlewares.use(cors({ origin: '*' }));
+    configureServer: ({ middlewares, ssrLoadModule }) => {
+      // middlewares.use(cors({ origin: '*' }));
       middlewares.use(async (req, res, next) => {
         const url = normalizePath(req.url!);
+
         const registerIds = SVG_ICONS_NAME.map((item) => `/@id/${item}`);
         const clientIds = SVG_ICONS_CLIENT.map((item) => `/@id/${item}`);
         if ([...clientIds, ...registerIds].some((item) => url.endsWith(item))) {
