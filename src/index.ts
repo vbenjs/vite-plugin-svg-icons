@@ -98,7 +98,7 @@ export default (opt: ViteSvgIconsPlugin): Plugin => {
         return idSet;
       }
     },
-    configureServer: ({ middlewares, ssrLoadModule }) => {
+    configureServer: ({ middlewares }) => {
       middlewares.use(cors({ origin: '*' }));
       middlewares.use(async (req, res, next) => {
         const url = normalizePath(req.url!);
