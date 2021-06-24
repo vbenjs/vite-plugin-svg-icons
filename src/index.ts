@@ -133,6 +133,7 @@ export async function createModuleCode(
 ) {
   const { insertHtml, idSet } = await compilerIcons(cache, svgoOptions, options);
   const code = `
+       if (typeof window !== 'undefined') {
          document.addEventListener('DOMContentLoaded', () => {
           let body = document.body;
           let svgDom = document.getElementById('${SVG_DOM_ID}');
@@ -146,6 +147,7 @@ export async function createModuleCode(
           svgDom.innerHTML = ${JSON.stringify(insertHtml)};
           body.insertBefore(svgDom, body.firstChild);
         });
+      }
         `;
   return {
     code: `${code}\nexport default {}`,
