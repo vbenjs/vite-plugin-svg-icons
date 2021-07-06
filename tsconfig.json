@@ -13,6 +13,6 @@
     "sourceMap": false,
     "noEmitOnError": true
   },
-  "include": ["src/**/*", "tests/**/*"],
+  "include": ["src/**/*", "tests/**/*", "client.d.ts"],
   "exclude": ["**/dist", "**/node_modules"]
 }

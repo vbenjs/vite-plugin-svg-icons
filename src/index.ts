@@ -1,10 +1,11 @@
+// eslint-disable-next-line
+/// <reference path="../module.d.ts" />
+
 import type { Plugin } from 'vite';
 import type { OptimizeOptions } from 'svgo';
-
 import fg from 'fast-glob';
 import getEtag from 'etag';
 import cors from 'cors';
-
 import { optimize } from 'svgo';
 import fs from 'fs-extra';
 import path from 'path';
