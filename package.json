@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-svg-icons",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Vite Plugin for fast creating SVG sprites.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -39,7 +39,7 @@
     "url": "https://github.com/anncwb/vite-plugin-svg-icons"
   },
   "bugs": {
-    "url": "https://github.com/anncwb/vite-plugin-svg-icons/issues"
+    "url": "https://github.com/anncwb/vite-plugin-svg-i cons/issues"
   },
   "homepage": "https://github.com/anncwb/vite-plugin-svg-icons/tree/master/#readme",
   "dependencies": {
