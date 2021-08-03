@@ -135,19 +135,24 @@ export async function createModuleCode(
   const { insertHtml, idSet } = await compilerIcons(cache, svgoOptions, options);
   const code = `
        if (typeof window !== 'undefined') {
-         document.addEventListener('DOMContentLoaded', () => {
-          let body = document.body;
-          let svgDom = document.getElementById('${SVG_DOM_ID}');
-          if(!svgDom) {
-            svgDom = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-            svgDom.style.position = 'absolute';
-            svgDom.style.width = '0';
-            svgDom.style.height = '0';
-            svgDom.id = '${SVG_DOM_ID}';
-          }
-          svgDom.innerHTML = ${JSON.stringify(insertHtml)};
-          body.insertBefore(svgDom, body.firstChild);
-        });
+         function loadSvg() {
+           let body = document.body;
+           let svgDom = document.getElementById('${SVG_DOM_ID}');
+           if(!svgDom) {
+             svgDom = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+             svgDom.style.position = 'absolute';
+             svgDom.style.width = '0';
+             svgDom.style.height = '0';
+             svgDom.id = '${SVG_DOM_ID}';
+           }
+           svgDom.innerHTML = ${JSON.stringify(insertHtml)};
+           body.insertBefore(svgDom, body.firstChild);
+         }
+         if(document.readyState === 'interactive') {
+           document.addEventListener('DOMContentLoaded', loadSvg);
+         } else {
+           loadSvg() 
+         }
       }
         `;
   return {
