@@ -57,14 +57,14 @@ Here the svg sprite map has been generated
 
 ## How to use in components
 
-**Vue way**
+### **Vue way**
 
 `/src/components/SvgIcon.vue`
 
 ```vue
 <template>
   <svg aria-hidden="true">
-    <use :xlink:href="symbolId" :fill="color" />
+    <use :href="symbolId" :fill="color" />
   </svg>
 </template>
 
@@ -95,7 +95,7 @@ Here the svg sprite map has been generated
 </script>
 ```
 
-**icons Directory Structure**
+#### **Icons Directory Structure**
 
 ```bash
 # src/icons
@@ -129,7 +129,54 @@ Here the svg sprite map has been generated
 </script>
 ```
 
-React is used in the same way. Just modify the component to Jsx component
+### **React way**
+
+`/src/components/SvgIcon.jsx`
+
+```jsx
+export default function SvgIcon({
+  name,
+  prefix = "icon",
+  color = "#333",
+  ...props
+}) {
+  const symbolId = `#${prefix}-${name}`;
+
+  return (
+    <svg {...props} aria-hidden="true">
+      <use href={symbolId} fill={color} />
+    </svg>
+  );
+}
+```
+
+#### **Icons Directory Structure**
+
+```bash
+# src/icons
+
+- icon1.svg
+- icon2.svg
+- icon3.svg
+- dir/icon1.svg
+```
+
+`/src/App.jsx`
+
+```jsx
+import SvgIcon from "./components/SvgIcon"
+
+export default function App() {
+  return (
+    <>
+      <SvgIcon name="icon1"></SvgIcon>
+      <SvgIcon name="icon1"></SvgIcon>
+      <SvgIcon name="icon1"></SvgIcon>
+      <SvgIcon name="dir-icon1"></SvgIcon>
+    </>
+  );
+}
+```
 
 ### Get all SymbolId
 
