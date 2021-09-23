@@ -148,10 +148,10 @@ export async function createModuleCode(
            svgDom.innerHTML = ${JSON.stringify(insertHtml)};
            body.insertBefore(svgDom, body.firstChild);
          }
-         if(document.readyState === 'interactive') {
+         if(document.readyState === 'loading') {
            document.addEventListener('DOMContentLoaded', loadSvg);
          } else {
-           loadSvg() 
+           loadSvg()
          }
       }
         `;
