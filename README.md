@@ -134,12 +134,7 @@ Here the svg sprite map has been generated
 `/src/components/SvgIcon.jsx`
 
 ```jsx
-export default function SvgIcon({
-  name,
-  prefix = "icon",
-  color = "#333",
-  ...props
-}) {
+export default function SvgIcon({ name, prefix = 'icon', color = '#333', ...props }) {
   const symbolId = `#${prefix}-${name}`;
 
   return (
@@ -164,7 +159,7 @@ export default function SvgIcon({
 `/src/App.jsx`
 
 ```jsx
-import SvgIcon from "./components/SvgIcon"
+import SvgIcon from './components/SvgIcon';
 
 export default function App() {
   return (
@@ -236,7 +231,7 @@ cd ./example
 
 yarn install
 
-yarn serve
+yarn dev
 
 ```
 

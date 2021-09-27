@@ -189,7 +189,7 @@ cd ./example
 
 yarn install
 
-yarn serve
+yarn dev
 
 ```
 
