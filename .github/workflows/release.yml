@@ -8,7 +8,13 @@ on:
 jobs:
   build:
     name: Create Release
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os}}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+      fail-fast: false
+
     steps:
       - name: Checkout code
         uses: actions/checkout@master
@@ -22,7 +28,3 @@ jobs:
           tag_name: ${{ github.ref }}
           body: |
             Please refer to [CHANGELOG.md](https://github.com/anncwb/vite-plugin-svg-icons/blob/main/CHANGELOG.md) for details.
-      # - name: npm install and create changeLog
-      #   run: |
-      #     npm install
-      #     npm run log

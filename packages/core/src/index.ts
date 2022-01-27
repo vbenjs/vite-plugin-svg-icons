@@ -17,7 +17,6 @@ import {
 } from './constants'
 import { normalizePath } from 'vite'
 import SVGCompiler from 'svg-baker'
-import './client'
 
 export * from './typing'
 

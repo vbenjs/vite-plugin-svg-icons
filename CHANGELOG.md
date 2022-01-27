@@ -1,3 +1,18 @@
+# [2.0.0](https://github.com/anncwb/vite-plugin-svg-icons/compare/v1.0.1...v2.0.0) (2022-01-28)
+
+### Bug Fixes
+
+- loadSvg time ([25ccc89](https://github.com/anncwb/vite-plugin-svg-icons/commit/25ccc89232cb16e5254f2c15e742a54867b71d35))
+- parse error handling，close [#38](https://github.com/anncwb/vite-plugin-svg-icons/issues/38) ([5021fb8](https://github.com/anncwb/vite-plugin-svg-icons/commit/5021fb85e438afd84348370c5df322db18742d96))
+- run error ([66cbae4](https://github.com/anncwb/vite-plugin-svg-icons/commit/66cbae402c4d168aee19054c537ddb08c82e57ed))
+
+### Features
+
+- ✨ support async load ([e17036d](https://github.com/anncwb/vite-plugin-svg-icons/commit/e17036d23a82ba0a240a033ca9b2825c92b7ed27))
+- add react guide ([40d88b1](https://github.com/anncwb/vite-plugin-svg-icons/commit/40d88b100fa79922ad401c1e1a7e08ead58957c1))
+- added inject parameter to specify the svgDom insertion position, close [#36](https://github.com/anncwb/vite-plugin-svg-icons/issues/36) ([8fb0ad7](https://github.com/anncwb/vite-plugin-svg-icons/commit/8fb0ad77ed5fbefdc124b3a8ccaaa2d8d28e8d09))
+- support typescript,close [#22](https://github.com/anncwb/vite-plugin-svg-icons/issues/22) ([b56a491](https://github.com/anncwb/vite-plugin-svg-icons/commit/b56a4912203f0a784d0ce1e9cf59d0a9e224d6d0))
+
 ## [1.0.5](https://github.com/anncwb/vite-plugin-svg-icons/compare/v0.4.1...v1.0.5) (2021-09-27)
 
 ### Bug Fixes
