@@ -30,27 +30,39 @@ npm i vite-plugin-svg-icons -D
 - vite.config.ts 中的配置插件
 
 ```ts
-import viteSvgIcons from 'vite-plugin-svg-icons';
-import path from 'path';
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import path from 'path'
 
 export default () => {
   return {
     plugins: [
-      viteSvgIcons({
+      createSvgIconsPlugin({
         // 指定需要缓存的图标文件夹
         iconDirs: [path.resolve(process.cwd(), 'src/icons')],
         // 指定symbolId格式
         symbolId: 'icon-[dir]-[name]',
+
+        /**
+         * 自定义插入位置
+         * @default: body-last
+         */
+        inject?: 'body-last' | 'body-first'
+
+        /**
+         * custom dom id
+         * @default: __svg__icons__dom__
+         */
+        customDomId: '__svg__icons__dom__',
       }),
     ],
-  };
-};
+  }
+}
 ```
 
 - 在 src/main.ts 内引入注册脚本
 
 ```ts
-import 'virtual:svg-icons-register';
+import 'virtual:svg-icons-register'
 ```
 
 到这里 svg 雪碧图已经生成
@@ -69,29 +81,29 @@ import 'virtual:svg-icons-register';
 </template>
 
 <script>
-  import { defineComponent, computed } from 'vue';
+import { defineComponent, computed } from 'vue'
 
-  export default defineComponent({
-    name: 'SvgIcon',
-    props: {
-      prefix: {
-        type: String,
-        default: 'icon',
-      },
-      name: {
-        type: String,
-        required: true,
-      },
-      color: {
-        type: String,
-        default: '#333',
-      },
+export default defineComponent({
+  name: 'SvgIcon',
+  props: {
+    prefix: {
+      type: String,
+      default: 'icon',
     },
-    setup(props) {
-      const symbolId = computed(() => `#${props.prefix}-${props.name}`);
-      return { symbolId };
+    name: {
+      type: String,
+      required: true,
     },
-  });
+    color: {
+      type: String,
+      default: '#333',
+    },
+  },
+  setup(props) {
+    const symbolId = computed(() => `#${props.prefix}-${props.name}`)
+    return { symbolId }
+  },
+})
 </script>
 ```
 
@@ -119,32 +131,53 @@ import 'virtual:svg-icons-register';
 </template>
 
 <script>
-  import { defineComponent, computed } from 'vue';
+import { defineComponent, computed } from 'vue'
 
-  import SvgIcon from './components/SvgIcon.vue';
-  export default defineComponent({
-    name: 'App',
-    components: { SvgIcon },
-  });
+import SvgIcon from './components/SvgIcon.vue'
+export default defineComponent({
+  name: 'App',
+  components: { SvgIcon },
+})
 </script>
 ```
 
-React 使用方式一样。只需修改组件为 Jsx 组件即可
+### **React 方式**
+
+`/src/components/SvgIcon.jsx`
+
+```jsx
+export default function SvgIcon({
+  name,
+  prefix = 'icon',
+  color = '#333',
+  ...props
+}) {
+  const symbolId = `#${prefix}-${name}`
+
+  return (
+    <svg {...props} aria-hidden="true">
+      <use href={symbolId} fill={color} />
+    </svg>
+  )
+}
+```
 
 ### 获取所有 SymbolId
 
 ```ts
-import ids from 'virtual:svg-icons-names';
+import ids from 'virtual:svg-icons-names'
 // => ['icon-icon1','icon-icon2','icon-icon3']
 ```
 
 ### 配置说明
 
-| 参数 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| iconDirs | `string[]` | - | 需要生成雪碧图的图标文件夹 |
-| symbolId | `string` | `icon-[dir]-[name]` | svg 的 symbolId 格式，见下方说明 |
-| svgoOptions | `boolean｜SvgoOptions` | `true` | svg 压缩配置，可以是对象[Options](https://github.com/svg/svgo) |
+| 参数        | 类型                   | 默认值                | 说明                                                           |
+| ----------- | ---------------------- | --------------------- | -------------------------------------------------------------- |
+| iconDirs    | `string[]`             | -                     | 需要生成雪碧图的图标文件夹                                     |
+| symbolId    | `string`               | `icon-[dir]-[name]`   | svg 的 symbolId 格式，见下方说明                               |
+| svgoOptions | `boolean｜SvgoOptions` | `true`                | svg 压缩配置，可以是对象[Options](https://github.com/svg/svgo) |
+| inject      | `string`               | `body-last`           | svgDom 默认插入的位置，可选`body-first`                        |
+| customDomId | `string`               | `__svg__icons__dom__` | svgDom 插入节点的 ID                                           |
 
 **symbolId**
 
@@ -173,6 +206,19 @@ svg 文件名
 - dir/dir2/icon1.svg # icon-dir-dir2-icon1
 ```
 
+## Typescript 支持
+
+如果使用 `Typescript`,你可以在`tsconfig.json`内添加
+
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    "types": ["vite-plugin-svg-icons/client"]
+  }
+}
+```
+
 **注意**
 
 虽然用文件夹来区分已经可以很大程度避免重名问题了,但是也会出现`iconDirs`包含多个文件夹，且文件名一样的 svg.
@@ -185,11 +231,10 @@ svg 文件名
 
 ```bash
 
-cd ./example
-
-yarn install
-
-yarn dev
+pnpm install
+cd ./packages/playground/basic
+pnpm run dev
+pnpm run build
 
 ```
 
