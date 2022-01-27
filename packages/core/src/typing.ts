@@ -1,5 +1,7 @@
 import type { OptimizeOptions } from 'svgo'
 
+export type DomInject = 'body-first' | 'body-last'
+
 export interface ViteSvgIconsPlugin {
   /**
    * icons folder, all svg files in it will be converted to svg sprite.
@@ -17,6 +19,12 @@ export interface ViteSvgIconsPlugin {
    * @default: icon-[dir]-[name]
    */
   symbolId?: string
+
+  /**
+   * icon format
+   * @default: body-last
+   */
+  inject?: DomInject
 }
 
 export interface FileStats {

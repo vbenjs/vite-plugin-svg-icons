@@ -1,6 +1,6 @@
 import type { Plugin } from 'vite'
 import type { OptimizedSvg, OptimizeOptions } from 'svgo'
-import type { ViteSvgIconsPlugin, FileStats } from './typing'
+import type { ViteSvgIconsPlugin, FileStats, DomInject } from './typing'
 import fg from 'fast-glob'
 import getEtag from 'etag'
 import cors from 'cors'
@@ -29,6 +29,7 @@ export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
   const options = {
     svgoOptions: true,
     symbolId: 'icon-[dir]-[name]',
+    inject: 'body-last' as const,
     ...opt,
   }
 
@@ -136,7 +137,7 @@ export async function createModuleCode(
              svgDom.setAttribute('xmlns:link','${XMLNS_LINK}');
            }
            svgDom.innerHTML = ${JSON.stringify(html)};
-           body.insertBefore(svgDom, body.firstChild);
+           ${domInject(options.inject)}
          }
          if(document.readyState === 'loading') {
            document.addEventListener('DOMContentLoaded', loadSvg);
@@ -148,6 +149,15 @@ export async function createModuleCode(
   return {
     code: `${code}\nexport default {}`,
     idSet: `export default ${JSON.stringify(Array.from(idSet))}`,
+  }
+}
+
+function domInject(inject: DomInject = 'body-last') {
+  switch (inject) {
+    case 'body-first':
+      return 'body.insertBefore(svgDom, body.firstChild);'
+    default:
+      return 'body.insertBefore(svgDom, body.lastChild);'
   }
 }
 
