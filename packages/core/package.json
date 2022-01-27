@@ -16,9 +16,7 @@
   "author": "Vben",
   "files": [
     "dist",
-    "register.d.ts",
-    "client.d.ts",
-    "module.d.ts"
+    "client.d.ts"
   ],
   "scripts": {
     "dev": "pnpm unbuild --stub",
