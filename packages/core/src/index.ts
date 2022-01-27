@@ -1,42 +1,26 @@
 import type { Plugin } from 'vite'
 import type { OptimizedSvg, OptimizeOptions } from 'svgo'
+import type { ViteSvgIconsPlugin, FileStats } from './typing'
 import fg from 'fast-glob'
 import getEtag from 'etag'
 import cors from 'cors'
 import fs from 'fs-extra'
-import path from 'path'
+import path from 'pathe'
 import { optimize } from 'svgo'
 import { debug as Debug } from 'debug'
-import { SVG_DOM_ID, SVG_ICONS_CLIENT, SVG_ICONS_NAME } from './constants'
+import {
+  SVG_DOM_ID,
+  SVG_ICONS_CLIENT,
+  SVG_ICONS_REGISTER_NAME,
+  XMLNS,
+  XMLNS_LINK,
+} from './constants'
 import { normalizePath } from 'vite'
-// @ts-ignore
 import SVGCompiler from 'svg-baker'
 
+export * from './typing'
+
 const debug = Debug('vite-plugin-svg-icons')
-
-export interface ViteSvgIconsPlugin {
-  /**
-   * icons folder, all svg files in it will be converted to svg sprite.
-   */
-  iconDirs: string[]
-  /**
-   * svgo configuration, used to compress svg
-   * @default：true
-   */
-  svgoOptions?: boolean | OptimizeOptions
-  /**
-   * icon format
-   * @default: icon-[dir]-[name]
-   */
-  symbolId?: string
-}
-
-interface FileStats {
-  relativeName: string
-  mtimeMs?: number
-  code: string
-  symbolId?: string
-}
 
 export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
   const cache = new Map<string, FileStats>()
@@ -64,16 +48,12 @@ export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
   return {
     name: 'vite:svg-icons',
     configResolved(resolvedConfig) {
-      isBuild =
-        resolvedConfig.isProduction || resolvedConfig.command === 'build'
+      isBuild = resolvedConfig.command === 'build'
       debug('resolvedConfig:', resolvedConfig)
     },
-    resolveId(importee) {
-      if (
-        SVG_ICONS_NAME.includes(importee) ||
-        SVG_ICONS_CLIENT.includes(importee)
-      ) {
-        return importee
+    resolveId(id) {
+      if ([SVG_ICONS_REGISTER_NAME, SVG_ICONS_CLIENT].includes(id)) {
+        return id
       }
       return null
     },
@@ -81,8 +61,8 @@ export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
     async load(id, ssr) {
       if (!isBuild && !ssr) return null
 
-      const isRegister = SVG_ICONS_NAME.some((item) => id.endsWith(item))
-      const isClient = SVG_ICONS_CLIENT.some((item) => id.endsWith(item))
+      const isRegister = id.endsWith(SVG_ICONS_REGISTER_NAME)
+      const isClient = id.endsWith(SVG_ICONS_CLIENT)
 
       if (ssr && !isBuild && (isRegister || isClient)) {
         return `export default {}`
@@ -105,9 +85,9 @@ export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
       middlewares.use(async (req, res, next) => {
         const url = normalizePath(req.url!)
 
-        const registerIds = SVG_ICONS_NAME.map((item) => `/@id/${item}`)
-        const clientIds = SVG_ICONS_CLIENT.map((item) => `/@id/${item}`)
-        if ([...clientIds, ...registerIds].some((item) => url.endsWith(item))) {
+        const registerId = `/@id/${SVG_ICONS_REGISTER_NAME}`
+        const clientId = `/@id/${SVG_ICONS_CLIENT}`
+        if ([clientId, registerId].some((item) => url.endsWith(item))) {
           res.setHeader('Content-Type', 'application/javascript')
           res.setHeader('Cache-Control', 'no-cache')
           const { code, idSet } = await createModuleCode(
@@ -115,9 +95,7 @@ export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
             svgoOptions as OptimizeOptions,
             options,
           )
-          const content = registerIds.some((item) => url.endsWith(item))
-            ? code
-            : idSet
+          const content = url.endsWith(registerId) ? code : idSet
 
           res.setHeader('Etag', getEtag(content, { weak: true }))
           res.statusCode = 200
@@ -137,8 +115,8 @@ export async function createModuleCode(
 ) {
   const { insertHtml, idSet } = await compilerIcons(cache, svgoOptions, options)
 
-  const xmlns = `xmlns="http://www.w3.org/2000/svg"`
-  const xmlnsLink = `xmlns:xlink="http://www.w3.org/1999/xlink"`
+  const xmlns = `xmlns="${XMLNS}"`
+  const xmlnsLink = `xmlns:xlink="${XMLNS_LINK}"`
   const html = insertHtml
     .replace(new RegExp(xmlns, 'g'), '')
     .replace(new RegExp(xmlnsLink, 'g'), '')
@@ -149,13 +127,13 @@ export async function createModuleCode(
            var body = document.body;
            var svgDom = document.getElementById('${SVG_DOM_ID}');
            if(!svgDom) {
-             svgDom = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+             svgDom = document.createElementNS('${XMLNS}', 'svg');
              svgDom.style.position = 'absolute';
              svgDom.style.width = '0';
              svgDom.style.height = '0';
              svgDom.id = '${SVG_DOM_ID}';
-             svgDom.setAttribute('xmlns','http://www.w3.org/2000/svg');
-             svgDom.setAttribute('xmlns:link','http://www.w3.org/1999/xlink');
+             svgDom.setAttribute('xmlns','${XMLNS}');
+             svgDom.setAttribute('xmlns:link','${XMLNS_LINK}');
            }
            svgDom.innerHTML = ${JSON.stringify(html)};
            body.insertBefore(svgDom, body.firstChild);
@@ -247,8 +225,9 @@ export async function compilerIcon(
 
   if (svgOptions) {
     const { data } = (await optimize(content, svgOptions)) as OptimizedSvg
-    content = data
+    content = data || content
   }
+
   // fix cannot change svg color  by  parent node problem
   content = content.replace(/stroke="[a-zA-Z#0-9]*"/, 'stroke="currentColor"')
   const svgSymbol = await new SVGCompiler().addSymbol({
@@ -288,7 +267,6 @@ export function discreteDir(name: string) {
       dirName: '',
     }
   }
-
   const strList = name.split('/')
   const fileName = strList.pop()
   const dirName = strList.join('-')
