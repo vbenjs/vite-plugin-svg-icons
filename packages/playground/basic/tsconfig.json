@@ -16,7 +16,9 @@
     "noUnusedParameters": true,
     "experimentalDecorators": true,
     "lib": ["dom", "esnext"],
+    "types": ["vite-plugin-svg-icons/client"],
     "incremental": true,
     "skipLibCheck": true
-  }
+  },
+  "exclude": ["dist"]
 }

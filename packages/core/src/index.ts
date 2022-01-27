@@ -17,6 +17,7 @@ import {
 } from './constants'
 import { normalizePath } from 'vite'
 import SVGCompiler from 'svg-baker'
+import './client'
 
 export * from './typing'
 
@@ -30,6 +31,7 @@ export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
     svgoOptions: true,
     symbolId: 'icon-[dir]-[name]',
     inject: 'body-last' as const,
+    customDomId: SVG_DOM_ID,
     ...opt,
   }
 
@@ -126,13 +128,13 @@ export async function createModuleCode(
        if (typeof window !== 'undefined') {
          function loadSvg() {
            var body = document.body;
-           var svgDom = document.getElementById('${SVG_DOM_ID}');
+           var svgDom = document.getElementById('${options.customDomId}');
            if(!svgDom) {
              svgDom = document.createElementNS('${XMLNS}', 'svg');
              svgDom.style.position = 'absolute';
              svgDom.style.width = '0';
              svgDom.style.height = '0';
-             svgDom.id = '${SVG_DOM_ID}';
+             svgDom.id = '${options.customDomId}';
              svgDom.setAttribute('xmlns','${XMLNS}');
              svgDom.setAttribute('xmlns:link','${XMLNS_LINK}');
            }

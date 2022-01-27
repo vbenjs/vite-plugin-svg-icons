@@ -25,6 +25,12 @@ export interface ViteSvgIconsPlugin {
    * @default: body-last
    */
   inject?: DomInject
+
+  /**
+   * custom dom id
+   * @default: __svg__icons__dom__
+   */
+  customDomId?: string
 }
 
 export interface FileStats {

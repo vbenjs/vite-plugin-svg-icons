@@ -1,12 +1,12 @@
-import { createApp } from 'vue';
-import App from './App.vue';
+import { createApp } from 'vue'
+import App from './App.vue'
 
-import 'virtual:svg-icons-register';
+import 'virtual:svg-icons-register'
 
-import allKeys from 'virtual:svg-icons-names';
+import allKeys from 'virtual:svg-icons-names'
 
-console.log(allKeys);
+console.log(allKeys)
 
-const app = createApp(App);
+const app = createApp(App)
 
-app.mount('#app');
+app.mount('#app')
