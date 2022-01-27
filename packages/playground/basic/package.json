@@ -1,0 +1,28 @@
+{
+  "name": "playground-basic",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build ",
+    "test:gzip": "npm run build && http-server dist --cors --gzip -c-1",
+    "test:br": "npm run build && http-server dist --cors --brotli -c-1"
+  },
+  "dependencies": {
+    "etag": "^1.8.1",
+    "fast-glob": "^3.2.7",
+    "fs-extra": "^10.0.0",
+    "svgo": "^2.8.0",
+    "vue": "^3.2.26"
+  },
+  "devDependencies": {
+    "vite-plugin-svg-icons": "workspace:*",
+    "@vitejs/plugin-vue": "^2.0.1",
+    "@vitejs/plugin-vue-jsx": "^1.3.3",
+    "@vue/compiler-sfc": "^3.2.26",
+    "cross-env": "^7.0.3",
+    "http-server": "^14.0.0",
+    "typescript": "^4.5.4",
+    "vite": "^2.7.7"
+  }
+}
