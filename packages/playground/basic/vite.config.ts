@@ -1,7 +1,7 @@
 import { UserConfigExport } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import jsx from '@vitejs/plugin-vue-jsx'
-import viteSvgIcons from 'vite-plugin-svg-icons'
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import path from 'path'
 
 export default (): UserConfigExport => {
@@ -9,7 +9,7 @@ export default (): UserConfigExport => {
     plugins: [
       vue(),
       jsx(),
-      viteSvgIcons({
+      createSvgIconsPlugin({
         iconDirs: [path.resolve(process.cwd(), 'src/icons')],
         // icon symbolId
         // default
