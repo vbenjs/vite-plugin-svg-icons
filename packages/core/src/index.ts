@@ -1,144 +1,147 @@
-// eslint-disable-next-line
-/// <reference path="../module.d.ts" />
-
-import type { Plugin } from 'vite';
-import type { OptimizeOptions } from 'svgo';
-import fg from 'fast-glob';
-import getEtag from 'etag';
-import cors from 'cors';
-import { optimize } from 'svgo';
-import fs from 'fs-extra';
-import path from 'path';
-import { debug as Debug } from 'debug';
-import { SVG_DOM_ID, SVG_ICONS_CLIENT, SVG_ICONS_NAME } from './constants';
-import { normalizePath } from 'vite';
+import type { Plugin } from 'vite'
+import type { OptimizedSvg, OptimizeOptions } from 'svgo'
+import fg from 'fast-glob'
+import getEtag from 'etag'
+import cors from 'cors'
+import fs from 'fs-extra'
+import path from 'path'
+import { optimize } from 'svgo'
+import { debug as Debug } from 'debug'
+import { SVG_DOM_ID, SVG_ICONS_CLIENT, SVG_ICONS_NAME } from './constants'
+import { normalizePath } from 'vite'
 // @ts-ignore
-import SVGCompiler from 'svg-baker';
+import SVGCompiler from 'svg-baker'
 
-const debug = Debug('vite-plugin-svg-icons');
+const debug = Debug('vite-plugin-svg-icons')
 
 export interface ViteSvgIconsPlugin {
   /**
    * icons folder, all svg files in it will be converted to svg sprite.
    */
-  iconDirs: string[];
+  iconDirs: string[]
   /**
    * svgo configuration, used to compress svg
    * @default：true
    */
-  svgoOptions?: boolean | OptimizeOptions;
+  svgoOptions?: boolean | OptimizeOptions
   /**
    * icon format
    * @default: icon-[dir]-[name]
    */
-  symbolId?: string;
+  symbolId?: string
 }
 
 interface FileStats {
-  relativeName: string;
-  mtimeMs?: number;
-  code: string;
-  symbolId?: string;
+  relativeName: string
+  mtimeMs?: number
+  code: string
+  symbolId?: string
 }
 
-export default (opt: ViteSvgIconsPlugin): Plugin => {
-  const cache = new Map<string, FileStats>();
+export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
+  const cache = new Map<string, FileStats>()
 
-  let isBuild = false;
+  let isBuild = false
   const options = {
     svgoOptions: true,
     symbolId: 'icon-[dir]-[name]',
     ...opt,
-  };
+  }
 
-  let { svgoOptions } = options;
-  const { symbolId } = options;
+  let { svgoOptions } = options
+  const { symbolId } = options
 
   if (!symbolId.includes('[name]')) {
-    throw new Error('SymbolId must contain [name] string!');
+    throw new Error('SymbolId must contain [name] string!')
   }
 
   if (svgoOptions) {
-    svgoOptions = typeof svgoOptions === 'boolean' ? {} : svgoOptions;
+    svgoOptions = typeof svgoOptions === 'boolean' ? {} : svgoOptions
   }
 
-  debug('plugin options:', options);
+  debug('plugin options:', options)
 
   return {
     name: 'vite:svg-icons',
     configResolved(resolvedConfig) {
-      isBuild = resolvedConfig.isProduction || resolvedConfig.command === 'build';
-      debug('resolvedConfig:', resolvedConfig);
+      isBuild =
+        resolvedConfig.isProduction || resolvedConfig.command === 'build'
+      debug('resolvedConfig:', resolvedConfig)
     },
     resolveId(importee) {
-      if (SVG_ICONS_NAME.includes(importee) || SVG_ICONS_CLIENT.includes(importee)) {
-        return importee;
+      if (
+        SVG_ICONS_NAME.includes(importee) ||
+        SVG_ICONS_CLIENT.includes(importee)
+      ) {
+        return importee
       }
-      return null;
+      return null
     },
 
     async load(id, ssr) {
-      if (!isBuild && !ssr) return null;
+      if (!isBuild && !ssr) return null
 
-      const isRegister = SVG_ICONS_NAME.some((item) => id.endsWith(item));
-      const isClient = SVG_ICONS_CLIENT.some((item) => id.endsWith(item));
+      const isRegister = SVG_ICONS_NAME.some((item) => id.endsWith(item))
+      const isClient = SVG_ICONS_CLIENT.some((item) => id.endsWith(item))
 
       if (ssr && !isBuild && (isRegister || isClient)) {
-        return `export default {}`;
+        return `export default {}`
       }
 
       const { code, idSet } = await createModuleCode(
         cache,
         svgoOptions as OptimizeOptions,
-        options
-      );
+        options,
+      )
       if (isRegister) {
-        return code;
+        return code
       }
       if (isClient) {
-        return idSet;
+        return idSet
       }
     },
     configureServer: ({ middlewares }) => {
-      middlewares.use(cors({ origin: '*' }));
+      middlewares.use(cors({ origin: '*' }))
       middlewares.use(async (req, res, next) => {
-        const url = normalizePath(req.url!);
+        const url = normalizePath(req.url!)
 
-        const registerIds = SVG_ICONS_NAME.map((item) => `/@id/${item}`);
-        const clientIds = SVG_ICONS_CLIENT.map((item) => `/@id/${item}`);
+        const registerIds = SVG_ICONS_NAME.map((item) => `/@id/${item}`)
+        const clientIds = SVG_ICONS_CLIENT.map((item) => `/@id/${item}`)
         if ([...clientIds, ...registerIds].some((item) => url.endsWith(item))) {
-          res.setHeader('Content-Type', 'application/javascript');
-          res.setHeader('Cache-Control', 'no-cache');
+          res.setHeader('Content-Type', 'application/javascript')
+          res.setHeader('Cache-Control', 'no-cache')
           const { code, idSet } = await createModuleCode(
             cache,
             svgoOptions as OptimizeOptions,
-            options
-          );
-          const content = registerIds.some((item) => url.endsWith(item)) ? code : idSet;
+            options,
+          )
+          const content = registerIds.some((item) => url.endsWith(item))
+            ? code
+            : idSet
 
-          res.setHeader('Etag', getEtag(content, { weak: true }));
-          res.statusCode = 200;
-          res.end(content);
+          res.setHeader('Etag', getEtag(content, { weak: true }))
+          res.statusCode = 200
+          res.end(content)
         } else {
-          next();
+          next()
         }
-      });
+      })
     },
-  };
-};
+  }
+}
 
 export async function createModuleCode(
   cache: Map<string, FileStats>,
   svgoOptions: OptimizeOptions,
-  options: ViteSvgIconsPlugin
+  options: ViteSvgIconsPlugin,
 ) {
-  const { insertHtml, idSet } = await compilerIcons(cache, svgoOptions, options);
+  const { insertHtml, idSet } = await compilerIcons(cache, svgoOptions, options)
 
-  const xmlns = `xmlns="http://www.w3.org/2000/svg"`;
-  const xmlnsLink = `xmlns:xlink="http://www.w3.org/1999/xlink"`;
+  const xmlns = `xmlns="http://www.w3.org/2000/svg"`
+  const xmlnsLink = `xmlns:xlink="http://www.w3.org/1999/xlink"`
   const html = insertHtml
     .replace(new RegExp(xmlns, 'g'), '')
-    .replace(new RegExp(xmlnsLink, 'g'), '');
+    .replace(new RegExp(xmlnsLink, 'g'), '')
 
   const code = `
        if (typeof window !== 'undefined') {
@@ -163,11 +166,11 @@ export async function createModuleCode(
            loadSvg()
          }
       }
-        `;
+        `
   return {
     code: `${code}\nexport default {}`,
     idSet: `export default ${JSON.stringify(Array.from(idSet))}`,
-  };
+  }
 }
 
 /**
@@ -178,40 +181,44 @@ export async function createModuleCode(
 export async function compilerIcons(
   cache: Map<string, FileStats>,
   svgOptions: OptimizeOptions,
-  options: ViteSvgIconsPlugin
+  options: ViteSvgIconsPlugin,
 ) {
-  const { iconDirs } = options;
+  const { iconDirs } = options
 
-  let insertHtml = '';
-  const idSet = new Set<string>();
+  let insertHtml = ''
+  const idSet = new Set<string>()
 
   for (const dir of iconDirs) {
-    const svgFilsStats = fg.sync('**/*.svg', { cwd: dir, stats: true, absolute: true });
+    const svgFilsStats = fg.sync('**/*.svg', {
+      cwd: dir,
+      stats: true,
+      absolute: true,
+    })
 
     for (const entry of svgFilsStats) {
-      const { path, stats: { mtimeMs } = {} } = entry;
-      const cacheStat = cache.get(path);
-      let svgSymbol;
-      let symbolId;
-      let relativeName = '';
+      const { path, stats: { mtimeMs } = {} } = entry
+      const cacheStat = cache.get(path)
+      let svgSymbol
+      let symbolId
+      let relativeName = ''
 
       const getSymbol = async () => {
-        relativeName = normalizePath(path).replace(normalizePath(dir + '/'), '');
-        symbolId = createSymbolId(relativeName, options);
-        svgSymbol = await compilerIcon(path, symbolId, svgOptions);
-        idSet.add(symbolId);
-      };
+        relativeName = normalizePath(path).replace(normalizePath(dir + '/'), '')
+        symbolId = createSymbolId(relativeName, options)
+        svgSymbol = await compilerIcon(path, symbolId, svgOptions)
+        idSet.add(symbolId)
+      }
 
       if (cacheStat) {
         if (cacheStat.mtimeMs !== mtimeMs) {
-          await getSymbol();
+          await getSymbol()
         } else {
-          svgSymbol = cacheStat.code;
-          symbolId = cacheStat.symbolId;
-          symbolId && idSet.add(symbolId);
+          svgSymbol = cacheStat.code
+          symbolId = cacheStat.symbolId
+          symbolId && idSet.add(symbolId)
         }
       } else {
-        await getSymbol();
+        await getSymbol()
       }
 
       svgSymbol &&
@@ -220,58 +227,58 @@ export async function compilerIcons(
           relativeName,
           code: svgSymbol,
           symbolId,
-        });
-      insertHtml += `${svgSymbol || ''}`;
+        })
+      insertHtml += `${svgSymbol || ''}`
     }
   }
-  return { insertHtml, idSet };
+  return { insertHtml, idSet }
 }
 
 export async function compilerIcon(
   file: string,
   symbolId: string,
-  svgOptions: OptimizeOptions
+  svgOptions: OptimizeOptions,
 ): Promise<string | null> {
   if (!file) {
-    return null;
+    return null
   }
 
-  let content = fs.readFileSync(file, 'utf-8');
+  let content = fs.readFileSync(file, 'utf-8')
 
   if (svgOptions) {
-    const { data } = await optimize(content, svgOptions);
-    content = data;
+    const { data } = (await optimize(content, svgOptions)) as OptimizedSvg
+    content = data
   }
   // fix cannot change svg color  by  parent node problem
-  content = content.replace(/stroke="[a-zA-Z#0-9]*"/, 'stroke="currentColor"');
+  content = content.replace(/stroke="[a-zA-Z#0-9]*"/, 'stroke="currentColor"')
   const svgSymbol = await new SVGCompiler().addSymbol({
     id: symbolId,
     content,
     path: file,
-  });
-  return svgSymbol.render();
+  })
+  return svgSymbol.render()
 }
 
 export function createSymbolId(name: string, options: ViteSvgIconsPlugin) {
-  const { symbolId } = options;
+  const { symbolId } = options
 
   if (!symbolId) {
-    return name;
+    return name
   }
 
-  let id = symbolId;
-  let fName = name;
+  let id = symbolId
+  let fName = name
 
-  const { fileName = '', dirName } = discreteDir(name);
+  const { fileName = '', dirName } = discreteDir(name)
   if (symbolId.includes('[dir]')) {
-    id = id.replace(/\[dir\]/g, dirName);
+    id = id.replace(/\[dir\]/g, dirName)
     if (!dirName) {
-      id = id.replace('--', '-');
+      id = id.replace('--', '-')
     }
-    fName = fileName;
+    fName = fileName
   }
-  id = id.replace(/\[name\]/g, fName);
-  return id.replace(path.extname(id), '');
+  id = id.replace(/\[name\]/g, fName)
+  return id.replace(path.extname(id), '')
 }
 
 export function discreteDir(name: string) {
@@ -279,11 +286,11 @@ export function discreteDir(name: string) {
     return {
       fileName: name,
       dirName: '',
-    };
+    }
   }
 
-  const strList = name.split('/');
-  const fileName = strList.pop();
-  const dirName = strList.join('-');
-  return { fileName, dirName };
+  const strList = name.split('/')
+  const fileName = strList.pop()
+  const dirName = strList.join('-')
+  return { fileName, dirName }
 }
