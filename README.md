@@ -15,14 +15,12 @@ Used to generate svg sprite map.
 
 **vite version:** >=2.0.0
 
-```
+```bash
 yarn add vite-plugin-svg-icons -D
-```
-
-or
-
-```
+# or
 npm i vite-plugin-svg-icons -D
+# or
+pnpm install vite-plugin-svg-icons -D
 ```
 
 ## Usage

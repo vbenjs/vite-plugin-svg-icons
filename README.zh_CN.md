@@ -9,20 +9,18 @@
 - **预加载** 在项目运行时就生成所有图标,只需操作一次 dom
 - **高性能** 内置缓存,仅当文件被修改时才会重新生成
 
-## 安装 (yarn or npm)
+## 安装
 
 **node version:** >=12.0.0
 
 **vite version:** >=2.0.0
 
-```
+```bash
 yarn add vite-plugin-svg-icons -D
-```
-
-or
-
-```
+# or
 npm i vite-plugin-svg-icons -D
+# or
+pnpm install vite-plugin-svg-icons -D
 ```
 
 ## 使用
