@@ -6,8 +6,10 @@ import getEtag from 'etag'
 import cors from 'cors'
 import fs from 'fs-extra'
 import path from 'pathe'
+import Debug from 'debug'
+import SVGCompiler from 'svg-baker'
 import { optimize } from 'svgo'
-import { debug as Debug } from 'debug'
+import { normalizePath } from 'vite'
 import {
   SVG_DOM_ID,
   SVG_ICONS_CLIENT,
@@ -15,12 +17,10 @@ import {
   XMLNS,
   XMLNS_LINK,
 } from './constants'
-import { normalizePath } from 'vite'
-import SVGCompiler from 'svg-baker'
 
 export * from './typing'
 
-const debug = Debug('vite-plugin-svg-icons')
+const debug = Debug.debug('vite-plugin-svg-icons')
 
 export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
   const cache = new Map<string, FileStats>()
