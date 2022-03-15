@@ -136,6 +136,7 @@ export async function createModuleCode(
              svgDom.id = '${options.customDomId}';
              svgDom.setAttribute('xmlns','${XMLNS}');
              svgDom.setAttribute('xmlns:link','${XMLNS_LINK}');
+             svgDom.setAttribute('aria-hidden',true);
            }
            svgDom.innerHTML = ${JSON.stringify(html)};
            ${domInject(options.inject)}
