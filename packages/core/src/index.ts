@@ -60,14 +60,16 @@ export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
       return null
     },
 
-    async load(id, ssr) {
+    async load(id, options) {
+      const ssr = typeof options === 'boolean' ? options : options.ssr
+
       if (!isBuild && !ssr) return null
 
       const isRegister = id.endsWith(SVG_ICONS_REGISTER_NAME)
       const isClient = id.endsWith(SVG_ICONS_CLIENT)
 
       if (ssr && !isBuild && (isRegister || isClient)) {
-        return `export default {}`
+        return `export default ${isClient ? '[]' : '{}'}`
       }
 
       const { code, idSet } = await createModuleCode(
