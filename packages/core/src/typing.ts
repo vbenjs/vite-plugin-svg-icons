@@ -6,7 +6,7 @@ export interface ViteSvgIconsPlugin {
   /**
    * icons folder, all svg files in it will be converted to svg sprite.
    */
-  iconDirs: string[]
+  iconDirs: string[] | string
 
   /**
    * svgo configuration, used to compress svg

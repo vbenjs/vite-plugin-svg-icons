@@ -172,7 +172,9 @@ export async function compilerIcons(
   svgOptions: OptimizeOptions,
   options: ViteSvgIconsPlugin,
 ) {
-  const { iconDirs } = options
+  const iconDirs = Array.isArray(options.iconDirs) 
+		? options.iconDirs
+		: [options.iconDirs]
 
   let insertHtml = ''
   const idSet = new Set<string>()
