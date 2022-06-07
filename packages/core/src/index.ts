@@ -17,6 +17,7 @@ import {
   XMLNS,
   XMLNS_LINK,
 } from './constants'
+import { generateDtsThrottled } from './dts'
 
 export * from './typing'
 
@@ -70,16 +71,19 @@ export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
         return `export default {}`
       }
 
-      const { code, idSet } = await createModuleCode(
+      const { code, idSetExport, idSet } = await createModuleCode(
         cache,
         svgoOptions as OptimizeOptions,
         options,
       )
+			if (options.dts && options.dts !== false) {
+				generateDtsThrottled(idSet, options.dts)
+			}
       if (isRegister) {
         return code
       }
       if (isClient) {
-        return idSet
+        return idSetExport
       }
     },
     configureServer: ({ middlewares }) => {
@@ -92,7 +96,7 @@ export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
         if ([clientId, registerId].some((item) => url.endsWith(item))) {
           res.setHeader('Content-Type', 'application/javascript')
           res.setHeader('Cache-Control', 'no-cache')
-          const { code, idSet } = await createModuleCode(
+          const { code, idSetExport: idSet } = await createModuleCode(
             cache,
             svgoOptions as OptimizeOptions,
             options,
@@ -149,7 +153,8 @@ export async function createModuleCode(
         `
   return {
     code: `${code}\nexport default {}`,
-    idSet: `export default ${JSON.stringify(Array.from(idSet))}`,
+    idSetExport: `export default ${JSON.stringify(Array.from(idSet))}`,
+		idSet
   }
 }
 
@@ -172,29 +177,34 @@ export async function compilerIcons(
   svgOptions: OptimizeOptions,
   options: ViteSvgIconsPlugin,
 ) {
-  const { iconDirs } = options
+  const iconDirs = Array.isArray(options.iconDirs) 
+		? options.iconDirs
+		: [options.iconDirs]
 
   let insertHtml = ''
   const idSet = new Set<string>()
 
   for (const dir of iconDirs) {
     const svgFilsStats = fg.sync('**/*.svg', {
-      cwd: dir,
+      cwd: path.resolve(process.cwd(), dir),
       stats: true,
       absolute: true,
     })
 
+		const cwd = path.resolve(process.cwd()) + '/'
+
     for (const entry of svgFilsStats) {
       const { path, stats: { mtimeMs } = {} } = entry
-      const cacheStat = cache.get(path)
+			const pathWithoutCwd = path.replace(cwd, '')
+      const cacheStat = cache.get(pathWithoutCwd)
       let svgSymbol
       let symbolId
       let relativeName = ''
 
       const getSymbol = async () => {
-        relativeName = normalizePath(path).replace(normalizePath(dir + '/'), '')
+        relativeName = normalizePath(pathWithoutCwd).replace(normalizePath(dir + '/'), '')
         symbolId = createSymbolId(relativeName, options)
-        svgSymbol = await compilerIcon(path, symbolId, svgOptions)
+        svgSymbol = await compilerIcon(pathWithoutCwd, symbolId, svgOptions)
         idSet.add(symbolId)
       }
 
@@ -211,7 +221,7 @@ export async function compilerIcons(
       }
 
       svgSymbol &&
-        cache.set(path, {
+        cache.set(pathWithoutCwd, {
           mtimeMs,
           relativeName,
           code: svgSymbol,
@@ -283,3 +293,5 @@ export function discreteDir(name: string) {
   const dirName = strList.join('-')
   return { fileName, dirName }
 }
+
+export default createSvgIconsPlugin
