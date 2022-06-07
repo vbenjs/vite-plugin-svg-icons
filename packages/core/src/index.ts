@@ -181,22 +181,25 @@ export async function compilerIcons(
 
   for (const dir of iconDirs) {
     const svgFilsStats = fg.sync('**/*.svg', {
-      cwd: dir,
+      cwd: path.resolve(process.cwd(), dir),
       stats: true,
       absolute: true,
     })
 
+		const cwd = path.resolve(process.cwd()) + '/'
+
     for (const entry of svgFilsStats) {
       const { path, stats: { mtimeMs } = {} } = entry
-      const cacheStat = cache.get(path)
+			const pathWithoutCwd = path.replace(cwd, '')
+      const cacheStat = cache.get(pathWithoutCwd)
       let svgSymbol
       let symbolId
       let relativeName = ''
 
       const getSymbol = async () => {
-        relativeName = normalizePath(path).replace(normalizePath(dir + '/'), '')
+        relativeName = normalizePath(pathWithoutCwd).replace(normalizePath(dir + '/'), '')
         symbolId = createSymbolId(relativeName, options)
-        svgSymbol = await compilerIcon(path, symbolId, svgOptions)
+        svgSymbol = await compilerIcon(pathWithoutCwd, symbolId, svgOptions)
         idSet.add(symbolId)
       }
 
@@ -213,7 +216,7 @@ export async function compilerIcons(
       }
 
       svgSymbol &&
-        cache.set(path, {
+        cache.set(pathWithoutCwd, {
           mtimeMs,
           relativeName,
           code: svgSymbol,
