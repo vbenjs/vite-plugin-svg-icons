@@ -17,6 +17,7 @@ import {
   XMLNS,
   XMLNS_LINK,
 } from './constants'
+import { generateDtsThrottled } from './dts'
 
 export * from './typing'
 
@@ -70,16 +71,19 @@ export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
         return `export default {}`
       }
 
-      const { code, idSet } = await createModuleCode(
+      const { code, idSetExport, idSet } = await createModuleCode(
         cache,
         svgoOptions as OptimizeOptions,
         options,
       )
+			if (options.dts && options.dts !== false) {
+				generateDtsThrottled(idSet, options.dts)
+			}
       if (isRegister) {
         return code
       }
       if (isClient) {
-        return idSet
+        return idSetExport
       }
     },
     configureServer: ({ middlewares }) => {
@@ -92,7 +96,7 @@ export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
         if ([clientId, registerId].some((item) => url.endsWith(item))) {
           res.setHeader('Content-Type', 'application/javascript')
           res.setHeader('Cache-Control', 'no-cache')
-          const { code, idSet } = await createModuleCode(
+          const { code, idSetExport: idSet } = await createModuleCode(
             cache,
             svgoOptions as OptimizeOptions,
             options,
@@ -149,7 +153,8 @@ export async function createModuleCode(
         `
   return {
     code: `${code}\nexport default {}`,
-    idSet: `export default ${JSON.stringify(Array.from(idSet))}`,
+    idSetExport: `export default ${JSON.stringify(Array.from(idSet))}`,
+		idSet
   }
 }
 
