@@ -51,6 +51,16 @@ export default () => {
          * @default: __svg__icons__dom__
          */
         customDomId: '__svg__icons__dom__',
+
+        /**
+         * .d.ts file generation options
+         * @default false
+         */
+        dts: {
+          namespace: 'SvgIcons'
+	        filename: 'icons.d.ts'
+	        symbol: (name) => name
+        }
       }),
     ],
   }
@@ -233,9 +243,9 @@ Then the generated SymbolId is written in the comment
 - dir/dir2/icon1.svg # icon-dir-dir2-icon1
 ```
 
-## Typescript Support
+## TypeScript Support
 
-If using `Typescript`, you can add in `tsconfig.json`
+If using TypeScript, you can add in `tsconfig.json`
 
 ```json
 // tsconfig.json
@@ -244,6 +254,64 @@ If using `Typescript`, you can add in `tsconfig.json`
     "types": ["vite-plugin-svg-icons/client"]
   }
 }
+```
+
+## `.d.ts` generation
+
+You can generate a declaration file that contains resolved icon names in order to provide typings for your custom icon components. 
+
+By default, `.d.ts` file generation is disabled. Set `dts` to `true` to enable it. Optionally, you can change a few options: 
+
+```ts
+export interface DtsOptions {
+	/**
+	 * Name of the generated namespace, or false to use the global namespace.
+	 * @default false
+	 */
+	namespace?: string | false
+
+	/**
+	 * Name of the generated type.
+	 * @default "SvgIcons"
+	 */
+	type?: string
+
+	/**
+	 * Name of the generated declaration file.
+	 * @default "icons.d.ts"
+	 */
+	filename?: string
+
+	/**
+	 * Custom function to generate individual icon name in the generated type.
+	 */
+	symbol?: (name: string) => string
+}
+```
+
+By default, the following `icons.d.ts` file will be generated: 
+
+```ts
+export {}
+declare global {
+  type SvgIcons = "icon-rain" | "icon-sun" | "icon-cloud"
+}
+```
+
+It could be used like the following: 
+
+```vue
+<template>
+  <svg aria-hidden="true">
+    <use :href="name" :fill="color" />
+  </svg>
+</template>
+
+<script setup lang="ts">
+defineProps<{
+  name: SvgIcons
+}>()
+</script>
 ```
 
 **Note**
