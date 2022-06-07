@@ -285,3 +285,5 @@ export function discreteDir(name: string) {
   const dirName = strList.join('-')
   return { fileName, dirName }
 }
+
+export default createSvgIconsPlugin
