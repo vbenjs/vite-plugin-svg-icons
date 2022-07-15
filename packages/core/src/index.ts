@@ -31,6 +31,7 @@ export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
     symbolId: 'icon-[dir]-[name]',
     inject: 'body-last' as const,
     customDomId: SVG_DOM_ID,
+    replaceStrokeWithCurrentColor: true,
     ...opt,
   }
 
@@ -194,7 +195,7 @@ export async function compilerIcons(
       const getSymbol = async () => {
         relativeName = normalizePath(path).replace(normalizePath(dir + '/'), '')
         symbolId = createSymbolId(relativeName, options)
-        svgSymbol = await compilerIcon(path, symbolId, svgOptions)
+        svgSymbol = await compilerIcon(path, symbolId, svgOptions, options)
         idSet.add(symbolId)
       }
 
@@ -227,6 +228,7 @@ export async function compilerIcon(
   file: string,
   symbolId: string,
   svgOptions: OptimizeOptions,
+  options: ViteSvgIconsPlugin,
 ): Promise<string | null> {
   if (!file) {
     return null
@@ -239,8 +241,10 @@ export async function compilerIcon(
     content = data || content
   }
 
-  // fix cannot change svg color  by  parent node problem
-  content = content.replace(/stroke="[a-zA-Z#0-9]*"/, 'stroke="currentColor"')
+  if (options.replaceStrokeWithCurrentColor) {
+    // fix cannot change svg color  by  parent node problem
+    content = content.replace(/stroke="[a-zA-Z#0-9]*"/, 'stroke="currentColor"')
+  }
   const svgSymbol = await new SVGCompiler().addSymbol({
     id: symbolId,
     content,
