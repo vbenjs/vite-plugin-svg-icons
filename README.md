@@ -51,6 +51,12 @@ export default () => {
          * @default: __svg__icons__dom__
          */
         customDomId: '__svg__icons__dom__',
+
+        /**
+         * option to perform a replacement of stroke colors with currentColor
+         * @default：true
+         */
+        replaceStrokeWithCurrentColor: true
       }),
     ],
   }
