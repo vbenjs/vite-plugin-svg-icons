@@ -44,7 +44,7 @@ export default () => {
          * custom insert position
          * @default: body-last
          */
-        inject?: 'body-last' | 'body-first'
+        inject?: 'body-last' | 'body-first',
 
         /**
          * custom dom id
