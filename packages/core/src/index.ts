@@ -128,6 +128,7 @@ export async function createModuleCode(
          function loadSvg() {
            var body = document.body;
            var svgDom = document.getElementById('${options.customDomId}');
+           var svgHtml = ${JSON.stringify(html)};
            if(!svgDom) {
              svgDom = document.createElementNS('${XMLNS}', 'svg');
              svgDom.style.position = 'absolute';
@@ -136,8 +137,10 @@ export async function createModuleCode(
              svgDom.id = '${options.customDomId}';
              svgDom.setAttribute('xmlns','${XMLNS}');
              svgDom.setAttribute('xmlns:link','${XMLNS_LINK}');
+           } else {
+             svgHtml = (svgDom.innerHTML || '') + svgHtml;
            }
-           svgDom.innerHTML = ${JSON.stringify(html)};
+           svgDom.innerHTML = svgHtml;
            ${domInject(options.inject)}
          }
          if(document.readyState === 'loading') {
