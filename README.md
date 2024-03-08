@@ -250,7 +250,7 @@ If using `Typescript`, you can add in `tsconfig.json`
 
 Although the use of folders to distinguish between them can largely avoid the problem of duplicate names, there will also be svgs with multiple folders and the same file name in `iconDirs`.
 
-This needs to be avoided by the developer himself
+[This needs to be avoided by the developer themselves](https://learnosity.slack.com/archives/C0601BENSTV/p1708905226242369)
 
 ## Example
 
