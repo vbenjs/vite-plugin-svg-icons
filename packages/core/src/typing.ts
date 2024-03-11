@@ -31,6 +31,12 @@ export interface ViteSvgIconsPlugin {
    * @default: __svg__icons__dom__
    */
   customDomId?: string
+
+  /**
+   * option to perform a replacement of stroke colors with currentColor
+   * @default：true
+   */
+   replaceStrokeWithCurrentColor?: boolean
 }
 
 export interface FileStats {

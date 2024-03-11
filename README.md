@@ -51,6 +51,12 @@ export default () => {
          * @default: __svg__icons__dom__
          */
         customDomId: '__svg__icons__dom__',
+
+        /**
+         * option to perform a replacement of stroke colors with currentColor
+         * @default：true
+         */
+        replaceStrokeWithCurrentColor: true
       }),
     ],
   }
@@ -198,13 +204,14 @@ import ids from 'virtual:svg-icons-names'
 
 ### Options
 
-| Parameter   | Type                   | Default               | Description                                                                           |
-| ----------- | ---------------------- | --------------------- | ------------------------------------------------------------------------------------- |
-| iconDirs    | `string[]`             | -                     | Need to generate the icon folder of the Sprite image                                  |
-| symbolId    | `string`               | `icon-[dir]-[name]`   | svg symbolId format, see the description below                                        |
-| svgoOptions | `boolean｜SvgoOptions` | `true`                | svg compression configuration, can be an object[Options](https://github.com/svg/svgo) |
-| inject      | `string`               | `body-last`           | svgDom default insertion position, optional `body-first`                              |
-| customDomId | `string`               | `__svg__icons__dom__` | Customize the ID of the svgDom insert node                                            |
+| Parameter                     | Type                   | Default               | Description                                                                           |
+| ----------------------------- | ---------------------- | --------------------- | ------------------------------------------------------------------------------------- |
+| iconDirs                      | `string[]`             | -                     | Need to generate the icon folder of the Sprite image                                  |
+| symbolId                      | `string`               | `icon-[dir]-[name]`   | svg symbolId format, see the description below                                        |
+| svgoOptions                   | `boolean｜SvgoOptions` | `true`                | svg compression configuration, can be an object[Options](https://github.com/svg/svgo) |
+| inject                        | `string`               | `body-last`           | svgDom default insertion position, optional `body-first`                              |
+| customDomId                   | `string`               | `__svg__icons__dom__` | Customize the ID of the svgDom insert node                                            |
+| replaceStrokeWithCurrentColor | `boolean`              | `true`                | Whether to perform a replacement of stroke colors with currentColor                   |
 
 **symbolId**
 
