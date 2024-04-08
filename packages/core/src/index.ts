@@ -83,29 +83,29 @@ export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
       }
     },
     configureServer: ({ middlewares }) => {
-      middlewares.use(cors({ origin: '*' }))
-      middlewares.use(async (req, res, next) => {
+      const registerId = `/@id/${SVG_ICONS_REGISTER_NAME}`
+      const clientId = `/@id/${SVG_ICONS_CLIENT}`
+
+      middlewares.use(registerId, cors({ origin: '*' }))
+      middlewares.use(clientId, cors({ origin: '*' }))
+
+      const svgIconMiddleware = async (req, res, next) => {
         const url = normalizePath(req.url!)
+        res.setHeader('Content-Type', 'application/javascript')
+        res.setHeader('Cache-Control', 'no-cache')
+        const { code, idSet } = await createModuleCode(
+          cache,
+          svgoOptions as OptimizeOptions,
+          options,
+        )
+        const content = url.endsWith(registerId) ? code : idSet
 
-        const registerId = `/@id/${SVG_ICONS_REGISTER_NAME}`
-        const clientId = `/@id/${SVG_ICONS_CLIENT}`
-        if ([clientId, registerId].some((item) => url.endsWith(item))) {
-          res.setHeader('Content-Type', 'application/javascript')
-          res.setHeader('Cache-Control', 'no-cache')
-          const { code, idSet } = await createModuleCode(
-            cache,
-            svgoOptions as OptimizeOptions,
-            options,
-          )
-          const content = url.endsWith(registerId) ? code : idSet
-
-          res.setHeader('Etag', getEtag(content, { weak: true }))
-          res.statusCode = 200
-          res.end(content)
-        } else {
-          next()
-        }
-      })
+        res.setHeader('Etag', getEtag(content, { weak: true }))
+        res.statusCode = 200
+        res.end(content)
+      }
+      middlewares.use(registerId, svgIconMiddleware)
+      middlewares.use(clientId, svgIconMiddleware)
     },
   }
 }
