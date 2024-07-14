@@ -107,6 +107,34 @@ export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
         }
       })
     },
+
+    async transformIndexHtml(html) {
+      if (options.inject !== 'index-html') {
+        return html
+      }
+
+      const { html: svgHtml } = await createModuleCode(
+        cache,
+        svgoOptions as OptimizeOptions,
+        options,
+      )
+
+      return [
+        {
+          injectTo: 'body-prepend',
+          tag: 'svg',
+          attrs: {
+            xmlns: XMLNS,
+            'xmlns:xlink': XMLNS_LINK,
+            id: options.customDomId,
+            'aria-hidden': 'true',
+            style:
+              'position: absolute; width: 0; height: 0; pointer-events: none;',
+          },
+          children: svgHtml,
+        },
+      ]
+    },
   }
 }
 
@@ -151,6 +179,7 @@ export async function createModuleCode(
   return {
     code: `${code}\nexport default {}`,
     idSet: `export default ${JSON.stringify(Array.from(idSet))}`,
+    html,
   }
 }
 

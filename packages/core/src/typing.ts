@@ -1,6 +1,6 @@
 import type { OptimizeOptions } from 'svgo'
 
-export type DomInject = 'body-first' | 'body-last'
+export type DomInject = 'body-first' | 'body-last' | 'index-html'
 
 export interface ViteSvgIconsPlugin {
   /**
