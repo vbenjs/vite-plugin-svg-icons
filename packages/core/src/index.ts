@@ -1,5 +1,5 @@
 import type { Plugin } from 'vite'
-import type { OptimizedSvg, OptimizeOptions } from 'svgo'
+import type { Output as OptimizedSvg, Config as OptimizeOptions } from 'svgo'
 import type { ViteSvgIconsPlugin, FileStats, DomInject } from './typing'
 import fg from 'fast-glob'
 import getEtag from 'etag'
