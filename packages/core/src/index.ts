@@ -138,7 +138,9 @@ export async function createModuleCode(
              svgDom.setAttribute('xmlns:link','${XMLNS_LINK}');
              svgDom.setAttribute('aria-hidden',true);
            }
-            svgDom.innerHTML += ${JSON.stringify(html)};
+            svgDom.innerHTML =(svgDom.innerHTML || '') + ${JSON.stringify(
+              html,
+            )};
             var newSymbols = Array.from(svgDom.querySelectorAll('symbol'));
             var map = new Map()
             newSymbols.forEach(function (newSymbol) {
