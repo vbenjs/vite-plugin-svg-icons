@@ -38,7 +38,7 @@
     "directory": "packages/core"
   },
   "bugs": {
-    "url": "https://github.com/anncwb/vite-plugin-svg-i cons/issues"
+    "url": "https://github.com/anncwb/vite-plugin-svg-icons/issues"
   },
   "homepage": "https://github.com/anncwb/vite-plugin-svg-icons/tree/master/#readme",
   "dependencies": {
