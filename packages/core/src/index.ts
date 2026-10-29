@@ -65,8 +65,12 @@ export function createSvgIconsPlugin(opt: ViteSvgIconsPlugin): Plugin {
 
       const isRegister = id.endsWith(SVG_ICONS_REGISTER_NAME)
       const isClient = id.endsWith(SVG_ICONS_CLIENT)
+      // 无关模块直接交还 Vite，避免重复遍历和编译图标目录。
+      if (!isRegister && !isClient) {
+        return null
+      }
 
-      if (ssr && !isBuild && (isRegister || isClient)) {
+      if (ssr && !isBuild) {
         return `export default {}`
       }
 
